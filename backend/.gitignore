@@ -1,0 +1,39 @@
+# --- Sistemske datoteke ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Uredniška okolja (VS Code, IntelliJ) ---
+.vscode/
+.idea/
+*.swp
+*.log
+
+# --- Odvisnosti (Dependencies) ---
+# Če uporabljaš Node.js
+node_modules/
+jspm_packages/
+
+# Če uporabljaš Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env/
+
+# --- Build rezultati ---
+dist/
+build/
+out/
+*.exe
+*.dll
+*.so
+
+# --- Občutljivi podatki (GESLA IN KLJUČI) ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key

@@ -1,0 +1,38 @@
+services:
+
+# BAZA PODATKOV
+  mongodb:
+      image: mongo:latest
+      container_name: martin-mongo
+      restart: always
+      ports:
+        - "27017:27017"
+      volumes:
+        - mongo_data:/data/db
+
+#BACKEND
+  backend:
+    build: ./backend
+    container_name: martin-backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/martinbaza
+
+#FRONTEND
+
+  frontend:
+    build: ./frontend
+    container_name: martin-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
+
+
+
