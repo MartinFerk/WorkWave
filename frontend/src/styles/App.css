@@ -107,3 +107,8 @@ section .wave span:nth-child(3) {
         transform: translate(-50%, -75%) rotate(360deg);
     }
 }
+
+.termin-btn{
+
+    margin: 50px auto;
+}

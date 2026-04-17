@@ -9,6 +9,7 @@ function Register() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
     const navigate = useNavigate();
@@ -17,9 +18,9 @@ function Register() {
         e.preventDefault();
         setErrorMsg('');
 
-        const podatki = {email, password};
+        const podatki = {email, username, password};
         try {
-            const odgovor = await fetch('http://localhost:5000/register', {
+            const odgovor = await fetch('http://localhost:5001/register', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(podatki)
@@ -54,12 +55,22 @@ function Register() {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Password: </label>
+                        <label>Uporabniško ime: </label>
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Uporabniško ime"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Geslo: </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Password"
+                            placeholder="Geslo"
                             required
                         />
                     </div>
