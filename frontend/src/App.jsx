@@ -8,6 +8,7 @@ import WorkLog from "./createWorkLog.jsx";
 import { useEffect } from "react";
 import { Analytics } from '@vercel/analytics/react';
 
+
 function App() {
     const navigate = useNavigate();
 
