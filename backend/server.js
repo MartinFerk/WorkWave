@@ -20,14 +20,6 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true }
 });
 
-const WorkLogSchema = new mongoose.Schema({
-    clientName: String,
-    time: Date,
-    pickupAddress: String,
-    destinationAddress: String,
-    assignedUser: { type: String, required: true }
-});
-
 const User = mongoose.model('User', UserSchema);
 
 app.post('/register', async (req, res) => {
@@ -99,9 +91,29 @@ app.post('/login', async (req, res) => {
 
 const WorkLog = mongoose.model('WorkLog', WorkLogSchema);
 
-/// ... (tvoj obstoječi začetek)
+// 2. Pot za pridobivanje vseh uporabnikov (za dropdown v frontend)
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({}, 'username'); // Vrne samo uporabniška imena
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: "Napaka pri pridobivanju uporabnikov" });
+    }
+});
 
-// 1. Pot za pridobivanje uporabnikov
+// 3. Pot za shranjevanje novega termina
+app.post('/create-work', async (req, res) => {
+    try {
+        const { clientName, time, pickupAddress, destinationAddress, assignedUser } = req.body;
+        const noviLog = new WorkLog({ clientName, time, pickupAddress, destinationAddress, assignedUser });
+        await noviLog.save();
+        res.status(201).json({ message: "Termin uspešno ustvarjen!" });
+    } catch (error) {
+        res.status(500).json({ error: "Napaka pri shranjevanju termina." });
+    }
+});
+
+
 app.get('/_/backend/users', async (req, res) => {
     try {
         const uporabniki = await User.find({}, 'username');
@@ -122,6 +134,7 @@ app.post('/_/backend/create-work', async (req, res) => {
         res.status(500).json({ error: "Napaka pri shranjevanju termina." });
     }
 });
+
 
 
 app.listen(5001, () => console.log("Backend teče na portu 5001"));
