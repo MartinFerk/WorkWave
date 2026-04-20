@@ -15,7 +15,7 @@ function CreateGroup() {
     }, []);
 
     const filteredUsers = searchTerm.trim() === ''
-        ? []
+        ? allUsers
         : allUsers.filter(user =>
             user.username.toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -97,7 +97,7 @@ function CreateGroup() {
                             />
                             <span style={{
                                 fontSize: '16px',
-                                color: '#333', // SPREMEMBA: Spremeni 'white' v temno barvo
+                                color: '#333',
                                 display: 'inline-block'
                             }}>
             {user.username}
