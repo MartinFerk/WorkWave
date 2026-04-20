@@ -7,12 +7,14 @@ import UserLogin from "./userLogin.jsx";
 import WorkLog from "./createWorkLog.jsx";
 import { useEffect } from "react";
 import { Analytics } from '@vercel/analytics/react';
+import CreateGroup from "./createGroup.jsx";
 
 
 function App() {
     const navigate = useNavigate();
 
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Stanje prijave
+    const [isAdmin, setIsAdmin] = useState(false);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -23,6 +25,7 @@ function App() {
             const podatki = JSON.parse(shranjenUporabnik);
             setUser(podatki);
             setIsLoggedIn(true);
+            setIsAdmin(podatki.isAdmin || false);
         }
     }, []);
 
@@ -44,6 +47,13 @@ function App() {
           <span className="globalNav">
                 <span className="navigationButtons">
                 <button onClick={() => navigate('/')}>Domov</button>
+                    <span className="adminNav">{isAdmin  && isLoggedIn ? (
+                        <>
+                            <button onClick={() => navigate('/create-group')}> Create Group</button>
+                        </>
+                    ) : null }
+
+                    </span>
             </span>
             <span className="userNav">
     {!isLoggedIn ? (
@@ -55,6 +65,7 @@ function App() {
         <button onClick={handleLogout}>Odjava</button>
     )}
 </span>
+
         </span>
 
           <div style={{ position: 'relative', zIndex: 10 }}>
@@ -74,8 +85,9 @@ function App() {
                   } />
 
                   <Route path="/register" element={<UserRegister />} />
-                  <Route path="/login" element={<UserLogin setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
+                  <Route path="/login" element={<UserLogin setIsLoggedIn={setIsLoggedIn} setUser={setUser}  setIsAdmin={setIsAdmin}/>} />
                   <Route path="/work" element={< WorkLog />} />
+                  <Route path="/create-group" element={< CreateGroup />} />
               </Routes>
           </div>
           <Analytics />
