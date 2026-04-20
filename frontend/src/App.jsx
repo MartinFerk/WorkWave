@@ -6,6 +6,7 @@ import UserRegister from "./userRegister.jsx";
 import UserLogin from "./userLogin.jsx";
 import WorkLog from "./createWorkLog.jsx";
 import { useEffect } from "react";
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
     const navigate = useNavigate();
@@ -76,6 +77,7 @@ function App() {
                   <Route path="/work" element={< WorkLog />} />
               </Routes>
           </div>
+          <Analytics />
       </section>
   )
 }
