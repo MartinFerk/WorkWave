@@ -77,11 +77,11 @@ function Register() {
                     </div>
                     <div className="form-group">
                         <label>
+                            Administrator
                             <input type="checkbox"
                                    checked={isAdmin}
                                    onChange={(e) => setIsAdmin(e.target.checked)}
                             />
-                            Administrator
                         </label>
                     </div>
                     <button type="submit">Register</button>

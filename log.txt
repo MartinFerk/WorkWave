@@ -4,11 +4,10 @@ DONE:
 -work form
 - shranjevanje work forma v bazo
 - shranjevanje userov v bazo
-
+- da lahko admin dodaja usere v groupe
 
 TO DO:
 
-- da lahko admin dodaja usere v groupe
 - da lahko admin samo dodeli termine
 - v work formu pri izbiri usera, lahko samo vidis usere s katerimi si v isti skupini
 - novi page ko se useru izpisejo termini, ce si odljavljen jih ne vidis

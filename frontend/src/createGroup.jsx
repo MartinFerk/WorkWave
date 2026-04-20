@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import './styles/userRegister.css'; // Uporabi obstoječi stil
+import './styles/userRegister.css';
 
 function CreateGroup() {
     const [groupName, setGroupName] = useState('');
     const [allUsers, setAllUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
-    // 1. Pridobi vse uporabnike ob nalaganju strani
     useEffect(() => {
         fetch('/_/backend/users')
             .then(res => res.json())
@@ -14,7 +14,10 @@ function CreateGroup() {
             .catch(err => console.error("Napaka pri pridobivanju userjev:", err));
     }, []);
 
-    // 2. Logika za izbiro uporabnikov (checkbox)
+    const filteredUsers = allUsers.filter(user =>
+        user.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const toggleUser = (username) => {
         if (selectedUsers.includes(username)) {
             setSelectedUsers(selectedUsers.filter(u => u !== username));
@@ -30,7 +33,7 @@ function CreateGroup() {
 
         const podatki = {
             groupName: groupName,
-            groupAdmin: currentUser.username, // Tukaj pošlješ ime admina
+            groupAdmin: currentUser.username,
             members: selectedUsers
         };
 
@@ -61,21 +64,30 @@ function CreateGroup() {
                     required
                 />
 
-                <h3>Izberi uporabnike:</h3>
-                <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                    {allUsers.map(user => (
-                        <div key={user.username}>
+                <h3 style={{marginTop: '20px'}}>Izberi uporabnike:</h3>
+
+                <input
+                    type="text"
+                    placeholder="Išči uporabnika..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ marginBottom: '15px' }}
+                />
+
+                <div style={{ maxHeight: '200px', overflowY: 'auto', border: '1px solid #ccc', padding: '10px' }}>
+                    {filteredUsers.map(user => (
+
+                        <div key={user.username} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                             <input
                                 type="checkbox"
                                 checked={selectedUsers.includes(user.username)}
                                 onChange={() => toggleUser(user.username)}
                             />
-                            {user.username}
+                            <span style={{ fontSize: '16px' }}>{user.username}</span>
                         </div>
                     ))}
                 </div>
-
-                <button type="submit">Ustvari</button>
+                <button type="submit" style={{ marginTop: '20px' }}>Ustvari</button>
             </form>
         </div>
     );

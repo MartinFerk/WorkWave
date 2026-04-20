@@ -32,10 +32,9 @@ const Group = mongoose.model('Group', new mongoose.Schema({
     members: [String]
 }))
 
-// TUKAJ MORAJO BITI POTI Z /_/backend/
 app.post('/register', async (req, res) => {
     try {
-        // Spremeni to vrstico (dodaj isAdmin)
+
         const { email, username, password, isAdmin } = req.body;
 
         const obstojecUporabnik = await User.findOne({ $or: [{ email }, { username }] });
@@ -43,12 +42,11 @@ app.post('/register', async (req, res) => {
             return res.status(400).json({ error: "Uporabnik že obstaja!" });
         }
 
-        // Dodaj isAdmin v nov objekt
         const noviUporabnik = new User({
             email,
             username,
             password,
-            isAdmin: isAdmin || false // Privzeto false, če ni označeno
+            isAdmin: isAdmin || false
         });
 
         await noviUporabnik.save();
@@ -69,7 +67,7 @@ app.post('/login', async (req, res) => {
         res.status(200).json({
             user: {
                 username: uporabnik.username,
-                isAdmin: uporabnik.isAdmin // Zdaj bo frontend vedel za to!
+                isAdmin: uporabnik.isAdmin
             }
         });
     } catch (err) {
