@@ -16,7 +16,7 @@ function CreateGroup() {
     }, []);
 
     const filteredUsers = searchTerm.trim() === ''
-        ? []
+        ? allUsers
         : allUsers.filter(user =>
             user.username.toLowerCase().includes(searchTerm.toLowerCase())
         );
