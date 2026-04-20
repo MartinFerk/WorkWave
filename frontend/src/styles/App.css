@@ -55,6 +55,7 @@ section {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    z-index: 0;
 }
 section .wave {
     position: absolute;
@@ -64,6 +65,7 @@ section .wave {
     background: lightcoral;
     transition: 0.5s;
     box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+    z-index: 0;
 }
 section .wave span {
     content: "";
