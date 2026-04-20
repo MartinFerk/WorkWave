@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const MONGODB_URI = process.env.MONGODB_URI;
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
