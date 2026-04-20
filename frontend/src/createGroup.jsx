@@ -96,7 +96,7 @@ function CreateGroup() {
                             />
                             <span style={{
                                 fontSize: '16px',
-                                color: 'black',
+                                color: 'white',
                                 display: 'inline-block'
                             }}>
                     {user.username}
