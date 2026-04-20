@@ -99,18 +99,20 @@ app.post('/login', async (req, res) => {
 
 const WorkLog = mongoose.model('WorkLog', WorkLogSchema);
 
-// 2. Pot za pridobivanje vseh uporabnikov (za dropdown v frontend)
-app.get('/users', async (req, res) => {
+/// ... (tvoj obstoječi začetek)
+
+// 1. Pot za pridobivanje uporabnikov
+app.get('/_/backend/users', async (req, res) => {
     try {
-        const users = await User.find({}, 'username'); // Vrne samo uporabniška imena
-        res.json(users);
+        const uporabniki = await User.find({}, 'username');
+        res.status(200).json(uporabniki);
     } catch (error) {
-        res.status(500).json({ error: "Napaka pri pridobivanju uporabnikov" });
+        console.error("Napaka pri pridobivanju uporabnikov:", error);
+        res.status(500).json({ error: "Napaka na strežniku." });
     }
 });
 
-// 3. Pot za shranjevanje novega termina
-app.post('/create-work', async (req, res) => {
+app.post('/_/backend/create-work', async (req, res) => {
     try {
         const { clientName, time, pickupAddress, destinationAddress, assignedUser } = req.body;
         const noviLog = new WorkLog({ clientName, time, pickupAddress, destinationAddress, assignedUser });
@@ -120,5 +122,6 @@ app.post('/create-work', async (req, res) => {
         res.status(500).json({ error: "Napaka pri shranjevanju termina." });
     }
 });
+
 
 app.listen(5001, () => console.log("Backend teče na portu 5001"));
