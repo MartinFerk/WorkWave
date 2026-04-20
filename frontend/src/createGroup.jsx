@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './styles/userRegister.css';
+import './styles/App.css';
 
 function CreateGroup() {
     const [groupName, setGroupName] = useState('');
@@ -96,7 +96,7 @@ function CreateGroup() {
                             />
                             <span style={{
                                 fontSize: '16px',
-                                color: 'black',
+                                color: 'white',
                                 display: 'inline-block'
                             }}>
                     {user.username}
