@@ -10,6 +10,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ function Register() {
         e.preventDefault();
         setErrorMsg('');
 
-        const podatki = {email, username, password};
+        const podatki = {email, username, password, isAdmin};
         try {
             const odgovor = await fetch('/_/backend/register', {
                 method: 'POST',
@@ -73,6 +74,15 @@ function Register() {
                             placeholder="Geslo"
                             required
                         />
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            <input type="checkbox"
+                                   checked={isAdmin}
+                                   onChange={(e) => setIsAdmin(e.target.checked)}
+                            />
+                            Administrator
+                        </label>
                     </div>
                     <button type="submit">Register</button>
                     {successMsg && (
