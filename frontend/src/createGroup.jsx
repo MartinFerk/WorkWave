@@ -58,7 +58,7 @@ function CreateGroup() {
 
     return (
         <div className="register-container">
-            <h2>Ustvari Novo Skupino</h2>
+            <h2>Ustvari novo skupino</h2>
             <form className="register-form" onSubmit={handleSubmit}>
                 <input
                     type="text"

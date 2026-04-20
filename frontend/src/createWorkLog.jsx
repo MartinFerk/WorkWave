@@ -61,7 +61,7 @@ function WorkLog() {
                     <input type="text" value={pickupAddress} onChange={(e) => setPickupAddress(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                    <label>Naslov dostave:</label>
+                    <label>Naslov cilja:</label>
                     <input type="text" value={destinationAddress} onChange={(e) => setDestinationAddress(e.target.value)} required />
                 </div>
                 <div className="form-group">
