@@ -5,8 +5,7 @@ import './styles/App.css'
 import {useNavigate} from "react-router-dom";
 
 
-// 1. V oklepajih funkcije sprejmi prop { setIsLoggedIn }
-function Login({ setIsLoggedIn, setUser }) {
+function Login({ setIsLoggedIn, setUser, setIsAdmin }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -35,6 +34,7 @@ function Login({ setIsLoggedIn, setUser }) {
             } else {
 
                 setIsLoggedIn(true);
+                setIsAdmin(rezultat.user.isAdmin || false);
 
                 localStorage.setItem('prijavljenUporabnik', JSON.stringify(rezultat.user));
                 setSuccessMsg("Prijava uspešna!");

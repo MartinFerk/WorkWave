@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './styles/userRegister.css'; // Uporabiva tvoj obstoječi CSS
+import './styles/userRegister.css';
 
 function WorkLog() {
     const [clientName, setClientName] = useState('');

@@ -26,6 +26,12 @@ const WorkLog = mongoose.model('WorkLog', new mongoose.Schema({
     assignedUser: String
 }));
 
+const Group = mongoose.model('Group', new mongoose.Schema({
+    groupName: String,
+    groupAdmin: String,
+    members: [String]
+}))
+
 // TUKAJ MORAJO BITI POTI Z /_/backend/
 app.post('/register', async (req, res) => {
     try {
@@ -84,6 +90,18 @@ app.post('/create-work', async (req, res) => {
         await noviLog.save();
         res.status(201).json({ message: "Termin ustvarjen!" });
     } catch (err) { res.status(500).json({ error: "Napaka" }); }
+});
+
+
+app.post('/create-group', async (req, res) => {
+    try{
+        const { groupName, groupAdmin, members } = req.body;
+        const newGroup = new Group({ groupName, groupAdmin ,members });
+        await newGroup.save();
+        res.status(201).json({ message: "Skupina uspešno ustvarjena!" });
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri ustvarjanju skupine" });
+    }
 });
 
 app.listen(5001, () => console.log("Backend teče na portu 5001"));
