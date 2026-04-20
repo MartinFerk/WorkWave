@@ -26,7 +26,7 @@ const WorkLog = mongoose.model('WorkLog', new mongoose.Schema({
 }));
 
 // TUKAJ MORAJO BITI POTI Z /_/backend/
-app.post('/_/backend/register', async (req, res) => {
+app.post('/register', async (req, res) => {
     try {
         const noviUporabnik = new User(req.body);
         await noviUporabnik.save();
@@ -34,7 +34,7 @@ app.post('/_/backend/register', async (req, res) => {
     } catch (err) { res.status(500).json({ error: "Napaka" }); }
 });
 
-app.post('/_/backend/login', async (req, res) => {
+app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
         const uporabnik = await User.findOne({ username });
@@ -43,14 +43,14 @@ app.post('/_/backend/login', async (req, res) => {
     } catch (err) { res.status(500).json({ error: "Napaka" }); }
 });
 
-app.get('/_/backend/users', async (req, res) => {
+app.get('/users', async (req, res) => {
     try {
         const users = await User.find({}, 'username');
         res.json(users);
     } catch (err) { res.status(500).json({ error: "Napaka" }); }
 });
 
-app.post('/_/backend/create-work', async (req, res) => {
+app.post('/create-work', async (req, res) => {
     try {
         const noviLog = new WorkLog(req.body);
         await noviLog.save();
