@@ -80,7 +80,6 @@ function CreateGroup() {
                     position: 'relative',
                     zIndex: 100 }}>
                     {filteredUsers.map(user => (
-
                         <div
                             key={user.username}
                             style={{
@@ -98,11 +97,11 @@ function CreateGroup() {
                             />
                             <span style={{
                                 fontSize: '16px',
-                                color: 'white',
+                                color: '#333', // SPREMEMBA: Spremeni 'white' v temno barvo
                                 display: 'inline-block'
                             }}>
-                    {user.username}
-                </span>
+            {user.username}
+        </span>
                         </div>
                     ))}
                 </div>
