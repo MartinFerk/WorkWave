@@ -14,9 +14,11 @@ function CreateGroup() {
             .catch(err => console.error("Napaka pri pridobivanju userjev:", err));
     }, []);
 
-    const filteredUsers = allUsers.filter(user =>
-        user.username.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredUsers = searchTerm.trim() === ''
+        ? []
+        : allUsers.filter(user =>
+            user.username.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
     const toggleUser = (username) => {
         if (selectedUsers.includes(username)) {
@@ -83,7 +85,7 @@ function CreateGroup() {
                                 checked={selectedUsers.includes(user.username)}
                                 onChange={() => toggleUser(user.username)}
                             />
-                            <span style={{ fontSize: '16px' }}>{user.username}</span>
+                            <span style={{ fontSize: '16px', color:"black" }}>{user.username}</span>
                         </div>
                     ))}
                 </div>
