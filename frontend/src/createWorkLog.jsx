@@ -10,7 +10,6 @@ function WorkLog() {
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
 
-    // Fetch uporabnikov ob nalaganju strani
     useEffect(() => {
         fetch('/_/backend/users')
             .then(res => {

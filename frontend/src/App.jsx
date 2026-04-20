@@ -13,7 +13,7 @@ import CreateGroup from "./createGroup.jsx";
 function App() {
     const navigate = useNavigate();
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Stanje prijave
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [user, setUser] = useState(null);
 
