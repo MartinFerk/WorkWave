@@ -93,6 +93,7 @@ function CreateGroup() {
                             }}
                         >
                             <input
+                                className="group-input"
                                 type="checkbox"
                                 checked={selectedUsers.includes(user.username)}
                                 onChange={() => toggleUser(user.username)}
