@@ -1,13 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config(); // To mora biti na vrhu!
+const express = require('express');
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 
-mongoose.connect('mongodb+srv://martinferkAD:1234@cluster0.rrgneq8.mongodb.net/')
+mongoose.connect(MONGODB_URI)
     .then(() => console.log("Povezan na MongoDB!"))
     .catch(err => console.error("Napaka pri povezavi:", err));
 
