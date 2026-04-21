@@ -81,8 +81,10 @@ const [work, setWork] = useState([]);
                                 <input type="datetime-local" value={editData.time} onChange={e => setEditData({...editData, time: e.target.value})} />
                                 <input value={editData.pickupAddress} onChange={e => setEditData({...editData, pickupAddress: e.target.value})} />
                                 <input value={editData.destinationAddress} onChange={e => setEditData({...editData, destinationAddress: e.target.value})} />
-                                <button onClick={() => handleSave(w._id)}>Shrani</button>
-                                <button onClick={() => setEditId(null)}>Prekliči</button>
+                                <span className="funcButton">
+                                    <button onClick={() => handleSave(w._id)}>Shrani</button>
+                                    <button onClick={() => setEditId(null)}>Prekliči</button>
+                                </span>
                             </>
                         ) : (
                             <>
