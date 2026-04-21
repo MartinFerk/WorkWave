@@ -90,7 +90,13 @@ app.post('/login', async (req, res) => {
             { expiresIn: '8h' }
         );
 
-        res.status(200).json({ token });
+        res.status(200).json({
+            token,
+            user: {
+                username: uporabnik.username,
+                isAdmin: uporabnik.isAdmin
+            }
+        });
     } catch (err) {
         res.status(500).json({ error: "Napaka" });
     }
