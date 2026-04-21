@@ -244,6 +244,8 @@ app.post('/create-work', verifyToken, async (req, res) => {
             <p><b>Cilj:</b> ${req.body.destinationAddress}</p>
         `
             });
+
+            console.log("Mail result:", mailResult);
         }
 
         res.status(201).json({ message: "Termin ustvarjen!" });
