@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { Analytics } from '@vercel/analytics/react';
 import CreateGroup from "./createGroup.jsx";
 import MyGroups from "./myGroups.jsx";
+import MyWorkLog from "./myWorkLog.jsx";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
                     <span className="userNav">{ isLoggedIn ? (
                         <>
                             <button onClick={() => navigate('/my-groups')}> Moje skupine</button>
+                            <button onClick={() => navigate('/my-worklog')}> Moje delo</button>
                         </>
                     ) : null }
 
@@ -98,6 +100,8 @@ function App() {
                   <Route path="/work" element={< WorkLog />} />
                   <Route path="/create-group" element={< CreateGroup />} />
                   <Route path="/my-groups" element={< MyGroups />} />
+                  <Route path="/my-worklog" element={< MyWorkLog />} />
+
               </Routes>
           </div>
           <Analytics />
