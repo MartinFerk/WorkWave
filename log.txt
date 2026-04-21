@@ -10,13 +10,13 @@ DONE:
 - novi page ko se useru izpisejo termini, ce si odljavljen jih ne vidis
 - Gesla so shranjena v plain textu — bi moral dodati bcrypt za hashiranje
 - Ni JWT autentikacije — kdorkoli lahko kliče backend endpointe direktno brez prijave
+- Brisanje in urejanje terminov/skupin
 
 
 TO DO:
 
 Funkcionalnost:
 
-Brisanje in urejanje terminov/skupin
 Notifikacije ko ti je dodeljen nov termin
 Pregled vseh terminov za admina (ne samo svojih)
 

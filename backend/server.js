@@ -212,6 +212,21 @@ app.delete('/work/:id/done', verifyToken, async (req, res) => {
     }
 });
 
+app.put('/work/:id', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!req.user.isAdmin) {
+            return res.status(403).json({ error: "Samo admin lahko ureja termin" });
+        }
+
+        const updated = await WorkLog.findByIdAndUpdate(id, req.body, { new: true });
+        res.json(updated);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri urejanju termina" });
+    }
+});
+
 
 
 app.listen(5001, () => console.log("Backend teče na portu 5001"));
