@@ -10,17 +10,19 @@ function WorkLog() {
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
 
+    const currentUser = JSON.parse(localStorage.getItem('prijavljenUporabnik'));
+
     useEffect(() => {
-        fetch('/_/backend/users')
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`Strežnik je vrnil napako: ${res.status}`);
-                }
-                return res.json();
+        fetch(`/_/backend/groups/${currentUser.username}`)
+            .then(res => res.json())
+            .then(data => {
+                const allMembers = [...new Set(data.flatMap(group => group.members))];
+                setUsers(allMembers);
             })
-            .then(data => setUsers(data))
             .catch(err => console.error("Napaka pri fetch:", err));
     }, []);
+
+
     const handleCreateLog = async (e) => {
         e.preventDefault();
 
@@ -68,7 +70,7 @@ function WorkLog() {
                     <label>Voznik:</label>
                     <select value={assignedUser} onChange={(e) => setAssignedUser(e.target.value)} required>
                         <option value="">Izberi voznika</option>
-                        {users.map(u => <option key={u.username} value={u.username}>{u.username}</option>)}
+                        {users.map(u => <option key={u} value={u}>{u}</option>)}
                     </select>
                 </div>
                 <button type="submit">Ustvari</button>

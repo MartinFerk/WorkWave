@@ -102,4 +102,32 @@ app.post('/create-group', async (req, res) => {
     }
 });
 
+
+app.get('/groups/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const groups = await Group.find({
+            $or: [
+                { groupAdmin: username },
+                { members: username }
+            ]
+        });
+        res.json(groups);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri pridobivanju skupin" });
+    }
+});
+
+app.get('/work/:username', async (req, res) => {
+
+    try{
+        const { username } = req.params;
+        const work = await WorkLog.find({ assignedUser: username });
+        res.json(work);
+    }catch (err){
+        res.status(500).json({ error: "Napaka pri pridbivanju dela" });
+    }
+});
+
+
 app.listen(5001, () => console.log("Backend teče na portu 5001"));
