@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const bcrypt = require('bcrypt');
@@ -109,15 +111,6 @@ app.get('/users',verifyToken, async (req, res) => {
     } catch (err) { res.status(500).json({ error: "Napaka" }); }
 });
 
-app.post('/create-work',verifyToken, async (req, res) => {
-    try {
-        const noviLog = new WorkLog(req.body);
-        await noviLog.save();
-        res.status(201).json({ message: "Termin ustvarjen!" });
-    } catch (err) { res.status(500).json({ error: "Napaka" }); }
-});
-
-
 app.post('/create-group',verifyToken, async (req, res) => {
     try{
         const { groupName, groupAdmin, members } = req.body;
@@ -224,6 +217,45 @@ app.put('/work/:id', verifyToken, async (req, res) => {
         res.json(updated);
     } catch (err) {
         res.status(500).json({ error: "Napaka pri urejanju termina" });
+    }
+});
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
+
+app.post('/create-work', verifyToken, async (req, res) => {
+    try {
+        const noviLog = new WorkLog(req.body);
+        await noviLog.save();
+
+        // poišči email assignedUserja
+        const user = await User.findOne({ username: req.body.assignedUser });
+
+        if (user) {
+            await transporter.sendMail({
+                from: process.env.EMAIL,
+                to: user.email,
+                subject: 'Nov termin dodeljen!',
+                html: `
+                    <h2>Imaš nov termin!</h2>
+                    <p><b>Stranka:</b> ${req.body.clientName}</p>
+                    <p><b>Čas:</b> ${new Date(req.body.time).toLocaleString('sl-SI')}</p>
+                    <p><b>Prevzem:</b> ${req.body.pickupAddress}</p>
+                    <p><b>Cilj:</b> ${req.body.destinationAddress}</p>
+                `
+            });
+        }
+
+        res.status(201).json({ message: "Termin ustvarjen!" });
+    } catch (err) {
+        res.status(500).json({ error: "Napaka" });
     }
 });
 
