@@ -35,7 +35,9 @@ function Register() {
             } else {
                 setSuccessMsg("Registracija uspešna!");
                 setErrorMsg('');
-                navigate('/login');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1000);
             }
         } catch (error) {
             setErrorMsg("Povezava s strežnikom ni uspela.");

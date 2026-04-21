@@ -157,6 +157,76 @@ app.get('/work/:username',verifyToken, async (req, res) => {
 });
 
 
+app.delete('/groups/:id', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const group = await Group.findById(id);
+
+        if (!group) return res.status(404).json({ error: "Skupina ne obstaja" });
+
+        if (group.groupAdmin !== req.user.username) {
+            return res.status(403).json({ error: "Samo admin lahko zbriše skupino" });
+        }
+
+        await Group.findByIdAndDelete(id);
+        res.json({ message: "Skupina uspešno zbrisana!" });
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri brisanju skupine" });
+    }
+});
+
+app.delete('/work/:id', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const work = await WorkLog.findById(id);
+
+        if (!work) return res.status(404).json({ error: "Termin ne obstaja" });
+
+        if (!req.user.isAdmin) {
+            return res.status(403).json({ error: "Samo admin lahko zbriše termin" });
+        }
+
+        await WorkLog.findByIdAndDelete(id);
+        res.json({ message: "Termin uspešno zbrisan!" });
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri brisanju termina" });
+    }
+});
+
+
+app.delete('/work/:id/done', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const work = await WorkLog.findById(id);
+
+        if (!work) return res.status(404).json({ error: "Termin ne obstaja" });
+
+        if (work.assignedUser !== req.user.username) {
+            return res.status(403).json({ error: "To ni tvoj termin" });
+        }
+
+        await WorkLog.findByIdAndDelete(id);
+        res.json({ message: "Termin označen kot opravljen!" });
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri označevanju termina" });
+    }
+});
+
+app.put('/work/:id', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!req.user.isAdmin) {
+            return res.status(403).json({ error: "Samo admin lahko ureja termin" });
+        }
+
+        const updated = await WorkLog.findByIdAndUpdate(id, req.body, { new: true });
+        res.json(updated);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri urejanju termina" });
+    }
+});
+
 
 
 app.listen(5001, () => console.log("Backend teče na portu 5001"));
