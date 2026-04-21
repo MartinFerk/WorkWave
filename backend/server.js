@@ -1,10 +1,11 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
 const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
-require('dotenv').config();
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -232,7 +233,7 @@ app.post('/create-work', verifyToken, async (req, res) => {
 
         if (user) {
             await resend.emails.send({
-                from: 'WorkWave <onboarding@resend.dev>',
+                from: 'onboarding@resend.dev',
                 to: user.email,
                 subject: 'Nov termin dodeljen!',
                 html: `
