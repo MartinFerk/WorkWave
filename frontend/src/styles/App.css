@@ -77,6 +77,16 @@ section {
     margin: 50px auto;
 }
 
+.card h3 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #555;
+    line-height: 1.5;
+}
 
 .page-container {
     position: relative;

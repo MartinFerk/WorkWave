@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import './styles/App.css'
+import './styles/global.css'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import UserRegister from "./userRegister.jsx";
 import UserLogin from "./userLogin.jsx";
@@ -72,6 +73,7 @@ function App() {
                       <button className="btn btn-gray" onClick={handleLogout}>Odjava</button>
                   )}
               </span>
+
             </nav>
 
             <div className="page-container">
@@ -79,6 +81,30 @@ function App() {
                     <Route path="/" element={
                         <header style={{ textAlign: 'center', color: 'white', paddingTop: '100px' }}>
                             <h1>Work Wave</h1>
+                            <p style={{ fontSize: '1.2rem', opacity: '0.8', marginBottom: '20px' }}>
+                                {isLoggedIn
+                                    ? "Tvoj osebni asistent za vodenje delovnih logov."
+                                    : "Najlažji način za vodenje evidenc in skupinsko delo."}
+                            </p>
+                            {!isLoggedIn && (
+                                <div style={{ marginTop: '50px', padding: '0 20px' }}>
+                                    <h2 style={{ color: 'white', textAlign: 'center', marginBottom: '30px' }}>Zakaj Work Wave?</h2>
+                                    <div className="card-grid" style={{ maxWidth: '900px', margin: '0 auto' }}>
+                                        <div className="card">
+                                            <h3> Skupine</h3>
+                                            <p>Organiziraj svoje sodelavce v skupine in delite delovne naloge.</p>
+                                        </div>
+                                        <div className="card">
+                                            <h3> Sledenje delu</h3>
+                                            <p>Enostavno beleženje terminov, časa in lokacij prevzema.</p>
+                                        </div>
+                                        <div className="card">
+                                            <h3> Preglednost</h3>
+                                            <p>Napredna zgodovina in administracija za popoln nadzor.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                             {isLoggedIn && user && (
                                 <>
                                     <h2>Pozdravljen, {user.username}</h2>

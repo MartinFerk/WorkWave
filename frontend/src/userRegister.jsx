@@ -44,7 +44,7 @@ function Register() {
     return (
         <div className="page-container">
             <div className="form-card">
-                <h2>Registracija Uporabnika</h2>
+                <h2>Registracija</h2>
                 <form onSubmit={handleRegister}>
                     <div className="form-group">
                         <label>Email:</label>

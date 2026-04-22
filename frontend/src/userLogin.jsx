@@ -56,7 +56,7 @@ function Login({ setIsLoggedIn, setUser, setIsAdmin }) {
     return (
         <div className="page-container">
             <div className="form-card">
-                <h2>Prijava Uporabnika</h2>
+                <h2>Prijava</h2>
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
                         <label>Uporabniško ime:</label>
