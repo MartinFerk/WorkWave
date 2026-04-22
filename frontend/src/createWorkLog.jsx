@@ -49,7 +49,7 @@ function WorkLog() {
 
     return (
         <div className="page-container">
-            <h2>Ustvari Termin</h2>
+            <h2 className="page-title">Ustvari Termin</h2>
             <form className="form-card" onSubmit={handleCreateLog}>
                 <div className="form-group">
                     <label>Stranka:</label>
