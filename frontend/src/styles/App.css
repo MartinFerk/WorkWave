@@ -17,9 +17,9 @@
     left: 0;
     width: 100%;
     display: flex;
-    justify-content: space-between; /* To potisne elemente na robove */
+    justify-content: space-between;
     padding: 20px 40px;
-    z-index: 100; /* Da bo nad valovi */
+    z-index: 100;
 }
 
 .navigationButtons {
