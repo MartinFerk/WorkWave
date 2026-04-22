@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './styles/userRegister.css';
+import './styles/global.css'
 import apiFetch from './api';
 
 function WorkLog() {
@@ -48,9 +48,9 @@ function WorkLog() {
     };
 
     return (
-        <div className="register-container">
-            <h2>Ustvari Termin</h2>
-            <form className="register-form" onSubmit={handleCreateLog}>
+        <div className="page-container">
+            <h2 className="page-title">Ustvari Termin</h2>
+            <form className="form-card" onSubmit={handleCreateLog}>
                 <div className="form-group">
                     <label>Stranka:</label>
                     <input type="text" value={clientName} onChange={(e) => setClientName(e.target.value)} required />

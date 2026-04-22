@@ -84,7 +84,7 @@ function App() {
           <div style={{ position: 'relative', zIndex: 10 }}>
               <Routes>
                   <Route path="/" element={
-                      <header style={{ textAlign: 'center', color: 'white' }}>
+                      <header style={{ textAlign: 'center', color: 'white', paddingTop: '100px' }}>
                           <h1>Work Wave</h1>
                           {isLoggedIn && user && (
                               <>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './styles/userRegister.css';
+import './styles/global.css'
 import apiFetch from './api';
 
 function CreateGroup() {
@@ -58,9 +58,9 @@ function CreateGroup() {
     };
 
     return (
-        <div className="register-container">
+        <div className="page-container">
             <h2>Ustvari novo skupino</h2>
-            <form className="register-form" onSubmit={handleSubmit}>
+            <form className="form-card" onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="Ime skupine"

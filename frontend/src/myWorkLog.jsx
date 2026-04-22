@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './styles/userRegister.css';
+import './styles/global.css'
 import apiFetch from './api';
 
 function MyWorkLog() {
@@ -28,22 +28,24 @@ const [work, setWork] = useState([]);
     };
 
     return (
-        <div className="register-container">
-            <h2>Moje delo</h2>
+        <div className="page-container">
+            <h2 className="page-title">Moje delo</h2>
             {work.length === 0 ? (
-                <p>Nimaš nobenega dela.</p>
+                <p style={{ color: 'white' }}>Nimaš nobenega dela.</p>
             ) : (
-                work.map(w => (
-                    <div key={w._id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-                                <h3>{w.clientName}</h3>
-                                <p>Čas: {new Date(w.time).toLocaleString()}</p>
-                                <p>Prevzem: {w.pickupAddress}</p>
-                                <p>Cilj: {w.destinationAddress}</p>
-                                {!currentUser.isAdmin && (
-                                    <button onClick={() => handleDone(w._id)}>✓ Opravljeno</button>
-                                )}
-                    </div>
-                ))
+                <div className="card-grid">
+                    {work.map(w => (
+                        <div key={w._id} className="card">
+                            <h3>{w.clientName}</h3>
+                            <p>Čas: {new Date(w.time).toLocaleString()}</p>
+                            <p>Prevzem: {w.pickupAddress}</p>
+                            <p>Cilj: {w.destinationAddress}</p>
+                            {!currentUser.isAdmin && (
+                                <button className="btn btn-green" style={{ marginTop: '8px' }} onClick={() => handleDone(w._id)}>✓ Opravljeno</button>
+                            )}
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );

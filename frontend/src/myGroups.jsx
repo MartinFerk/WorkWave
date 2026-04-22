@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './styles/userRegister.css';
+import './styles/global.css'
 import apiFetch from './api';
 
 function MyGroups() {
@@ -17,20 +17,20 @@ function MyGroups() {
     }, []);
 
     return (
-        <div className="register-container">
-            <h2>Moje skupine</h2>
+        <div className="page-container">
+            <h2 className="page-title">Moje skupine</h2>
             {groups.length === 0 ? (
-                <p>Nisi v nobeni skupini.</p>
+                <p style={{ color: 'white' }}>Nisi v nobeni skupini.</p>
             ) : (
-                groups.map(group => (
-                    <div key={group._id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-
-                                <h3>{group.groupName}</h3>
-                                <p>Admin: {group.groupAdmin}</p>
-                                <p>Člani: {group.members.join(', ')}</p>
-
-                    </div>
-                ))
+                <div className="card-grid">
+                    {groups.map(group => (
+                        <div key={group._id} className="card">
+                            <h3>{group.groupName}</h3>
+                            <p>Admin: {group.groupAdmin}</p>
+                            <p>Člani: {group.members.join(', ')}</p>
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );
