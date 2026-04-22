@@ -148,7 +148,7 @@ app.get('/work/:username',verifyToken, async (req, res) => {
 
     try{
         const { username } = req.params;
-        const work = await WorkLog.find({ assignedUser: username });
+        const work = await WorkLog.find({ assignedUser: username, isCompleted: false });
         res.json(work);
     }catch (err){
         res.status(500).json({ error: "Napaka pri pridbivanju dela" });
