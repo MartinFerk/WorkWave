@@ -11,6 +11,7 @@ import CreateGroup from "./createGroup.jsx";
 import MyGroups from "./myGroups.jsx";
 import MyWorkLog from "./myWorkLog.jsx";
 import AdminPage from './adminPage.jsx';
+import HistoryPage from './historyLog.jsx';
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
                         <>
                             <button onClick={() => navigate('/my-groups')}> Moje skupine</button>
                             <button onClick={() => navigate('/my-worklog')}> Moje delo</button>
+                            <button onClick={() => navigate('/history')}> Zgodovina</button>
                         </>
                     ) : null }
 
@@ -108,6 +110,7 @@ function App() {
                   <Route path="/my-groups" element={< MyGroups />} />
                   <Route path="/my-worklog" element={< MyWorkLog />} />
                   <Route path="/admin" element={<AdminPage />} />
+                  <Route path="/history" element={<HistoryPage />} />
 
               </Routes>
           </div>

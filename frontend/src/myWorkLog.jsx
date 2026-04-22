@@ -29,13 +29,19 @@ function MyWorkLog() {
     }, []);
 
     const handleDone = async (id) => {
-        const response = await apiFetch(`/_/backend/work/${id}/done`, {
-            method: 'DELETE'
+        const response = await apiFetch(`/_/backend/work/${id}/complete`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ isCompleted: true })
         });
+
         if (response.ok) {
             setWork(work.filter(w => w._id !== id));
+            setMessage({ text: "Termin uspešno opravljen!", type: 'success' });
         } else {
-            setMessage({ text: "Napaka pri zakljucevanju dela.", type: 'error' });
+            setMessage({ text: "Napaka pri označevanju dela.", type: 'error' });
         }
     };
 

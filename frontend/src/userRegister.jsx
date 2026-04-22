@@ -4,8 +4,6 @@ import './styles/userRegister.css';
 import {useNavigate} from "react-router-dom";
 import apiFetch from './api';
 
-
-
 function Register() {
 
     const [email, setEmail] = useState('');

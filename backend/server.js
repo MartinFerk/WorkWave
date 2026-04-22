@@ -29,7 +29,11 @@ const WorkLog = mongoose.model('WorkLog', new mongoose.Schema({
     time: Date,
     pickupAddress: String,
     destinationAddress: String,
-    assignedUser: String
+    assignedUser: String,
+    isCompleted: {
+        type: Boolean,
+        default: false
+    }
 }));
 
 const Group = mongoose.model('Group', new mongoose.Schema({
@@ -189,10 +193,15 @@ app.delete('/work/:id', verifyToken, async (req, res) => {
 });
 
 
-app.delete('/work/:id/done', verifyToken, async (req, res) => {
+app.patch('/work/:id/complete', verifyToken, async (req, res) => {
     try {
         const { id } = req.params;
-        const work = await WorkLog.findById(id);
+
+        const work = await WorkLog.findByIdAndUpdate(
+            id,
+            { isCompleted: true },
+            { new: true }
+        );
 
         if (!work) return res.status(404).json({ error: "Termin ne obstaja" });
 
@@ -200,10 +209,9 @@ app.delete('/work/:id/done', verifyToken, async (req, res) => {
             return res.status(403).json({ error: "To ni tvoj termin" });
         }
 
-        await WorkLog.findByIdAndDelete(id);
-        res.json({ message: "Termin označen kot opravljen!" });
+        res.json({ message: "Termin označen kot opravljen!", work });
     } catch (err) {
-        res.status(500).json({ error: "Napaka pri označevanju termina" });
+        res.status(500).json({ error: "Napaka pri posodabljanju termina" });
     }
 });
 
@@ -287,6 +295,17 @@ app.get('/admin/groups', verifyToken, async (req, res) => {
         res.json(groups);
     } catch (err) {
         res.status(500).json({ error: "Napaka" });
+    }
+});
+
+
+app.get('/work/history/:username', verifyToken, async (req, res) => {
+    try {
+        const { username } = req.params;
+        const history = await WorkLog.find({ assignedUser: username, isCompleted: true });
+        res.json(history);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri pridobivanju zgodovine" });
     }
 });
 
