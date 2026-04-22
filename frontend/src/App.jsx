@@ -10,6 +10,7 @@ import { Analytics } from '@vercel/analytics/react';
 import CreateGroup from "./createGroup.jsx";
 import MyGroups from "./myGroups.jsx";
 import MyWorkLog from "./myWorkLog.jsx";
+import AdminPage from './adminPage.jsx';
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
                     <span className="adminNav">{isAdmin  && isLoggedIn ? (
                         <>
                             <button onClick={() => navigate('/create-group')}> Ustvari skupino</button>
+                            <button onClick={() => navigate('/admini')}> Pregled</button>
                         </>
                     ) : null }
 
@@ -101,6 +103,7 @@ function App() {
                   <Route path="/create-group" element={< CreateGroup />} />
                   <Route path="/my-groups" element={< MyGroups />} />
                   <Route path="/my-worklog" element={< MyWorkLog />} />
+                  <Route path="/admin" element={<AdminPage />} />
 
               </Routes>
           </div>

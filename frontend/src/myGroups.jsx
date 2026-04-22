@@ -16,18 +16,6 @@ function MyGroups() {
             .catch(err => console.log("Napaka pri pridobivanju skupin", err));
     }, []);
 
-    const handleDelete = async (id) => {
-        const response = await apiFetch(`/_/backend/groups/${id}`, {
-            method: 'DELETE'
-        });
-
-        if (response.ok) {
-            setGroups(groups.filter(g => g._id !== id));
-        } else {
-            alert("Napaka pri brisanju.");
-        }
-    };
-
     return (
         <div className="register-container">
             <h2>Moje skupine</h2>
@@ -36,12 +24,11 @@ function MyGroups() {
             ) : (
                 groups.map(group => (
                     <div key={group._id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-                        <h3>{group.groupName}</h3>
-                        <p>Admin: {group.groupAdmin}</p>
-                        <p>Člani: {group.members.join(', ')}</p>
-                        {group.groupAdmin === currentUser.username && (
-                            <button onClick={() => handleDelete(group._id)}>Zbriši</button>
-                        )}
+
+                                <h3>{group.groupName}</h3>
+                                <p>Admin: {group.groupAdmin}</p>
+                                <p>Člani: {group.members.join(', ')}</p>
+
                     </div>
                 ))
             )}

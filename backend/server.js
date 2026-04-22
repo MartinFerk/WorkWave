@@ -222,6 +222,22 @@ app.put('/work/:id', verifyToken, async (req, res) => {
     }
 });
 
+app.put('/groups/:id', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const group = await Group.findById(id);
+
+        if (group.groupAdmin !== req.user.username) {
+            return res.status(403).json({ error: "Samo admin lahko ureja skupino" });
+        }
+
+        const updated = await Group.findByIdAndUpdate(id, req.body, { new: true });
+        res.json(updated);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri urejanju skupine" });
+    }
+});
+
 
 app.post('/create-work', verifyToken, async (req, res) => {
     try {
@@ -254,6 +270,25 @@ app.post('/create-work', verifyToken, async (req, res) => {
     }
 });
 
+app.get('/admin/work', verifyToken, async (req, res) => {
+    try {
+        if (!req.user.isAdmin) return res.status(403).json({ error: "Samo admin" });
+        const work = await WorkLog.find({});
+        res.json(work);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka" });
+    }
+});
+
+app.get('/admin/groups', verifyToken, async (req, res) => {
+    try {
+        if (!req.user.isAdmin) return res.status(403).json({ error: "Samo admin" });
+        const groups = await Group.find({ groupAdmin: req.user.username });
+        res.json(groups);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka" });
+    }
+});
 
 
 app.listen(5001, () => console.log("Backend teče na portu 5001"));
