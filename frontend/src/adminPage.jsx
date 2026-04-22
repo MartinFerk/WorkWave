@@ -117,10 +117,11 @@ function AdminPage() {
         <div style={{
             padding: '100px 30px 30px 30px',
             overflowY: 'auto',
+            overflowX: 'hidden',
             height: '100vh',
             boxSizing: 'border-box',
-            width: '100%',
-            position: 'absolute',
+            width: '100vw',
+            position: 'fixed',
             top: 0,
             left: 0,
             zIndex: 10
