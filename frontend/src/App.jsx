@@ -91,15 +91,15 @@ function App() {
                                     <h2 style={{ color: 'white', textAlign: 'center', marginBottom: '30px' }}>Zakaj Work Wave?</h2>
                                     <div className="card-grid" style={{ maxWidth: '900px', margin: '0 auto' }}>
                                         <div className="card">
-                                            <h3 className="page-title"> Skupine</h3>
+                                            <h3> Skupine</h3>
                                             <p>Organiziraj svoje sodelavce v skupine in delite delovne naloge.</p>
                                         </div>
                                         <div className="card">
-                                            <h3 className="page-title"> Sledenje delu</h3>
+                                            <h3> Sledenje delu</h3>
                                             <p>Enostavno beleženje terminov, časa in lokacij prevzema.</p>
                                         </div>
                                         <div className="card">
-                                            <h3 className="page-title"> Preglednost</h3>
+                                            <h3> Preglednost</h3>
                                             <p>Napredna zgodovina in administracija za popoln nadzor.</p>
                                         </div>
                                     </div>
