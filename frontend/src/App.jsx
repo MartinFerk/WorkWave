@@ -89,9 +89,13 @@ function App() {
                           {isLoggedIn && user && (
                               <>
                                   <h2>Pozdravljen, {user.username}</h2>
-                                  <div>
-                                      <button onClick={ ()=>navigate('/work')} className="termin-btn"> Ustvari Termin </button>
-                                  </div>
+                                  {isAdmin && (
+                                      <>
+                                          <div>
+                                              <button onClick={ ()=>navigate('/work')} className="termin-btn"> Ustvari Termin </button>
+                                          </div>
+                                      </>
+                                  )}
                               </>
                           )}
                       </header>
