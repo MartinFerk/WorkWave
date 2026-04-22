@@ -3,7 +3,10 @@ import './styles/global.css'
 import apiFetch from './api';
 
 function MyWorkLog() {
-const [work, setWork] = useState([]);
+    const [work, setWork] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [message, setMessage] = useState(null);
 
     const currentUser = JSON.parse(localStorage.getItem('prijavljenUporabnik'));
 
@@ -11,9 +14,18 @@ const [work, setWork] = useState([]);
         if (!currentUser) return;
 
         apiFetch(`/_/backend/work/${currentUser.username}`)
-            .then(res => res.json())
-            .then(data => setWork(data))
-            .catch(err => console.log("Napaka pri pridobivanju dela", err));
+            .then(res => {
+                if (!res.ok) throw new Error("Napaka pri pridobivanju dela");
+                return res.json();
+            })
+            .then(data => {
+                setWork(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
     }, []);
 
     const handleDone = async (id) => {
@@ -23,9 +35,24 @@ const [work, setWork] = useState([]);
         if (response.ok) {
             setWork(work.filter(w => w._id !== id));
         } else {
-            alert("Napaka pri označevanju.");
+            setMessage({ text: "Napaka pri zakljucevanju dela.", type: 'error' });
         }
     };
+
+    if (loading) return (
+        <div className="page-container">
+            <p style={{ color: 'white', fontSize: '18px' }}>Nalaganje...</p>
+        </div>
+    );
+
+    if (error) return (
+        <div className="page-container">
+            <p style={{ color: '#f44336', background: 'white', padding: '16px', borderRadius: '12px' }}>
+                ⚠️ {error}
+            </p>
+        </div>
+    );
+
 
     return (
         <div className="page-container">
@@ -46,6 +73,18 @@ const [work, setWork] = useState([]);
                         </div>
                     ))}
                 </div>
+            )}
+
+            {message && (
+                <p style={{
+                    color: message.type === 'error' ? '#f44336' : '#4CAF50',
+                    background: 'white',
+                    padding: '10px',
+                    borderRadius: '6px',
+                    marginTop: '10px'
+                }}>
+                    {message.type === 'error' ? '⚠️' : '✓'} {message.text}
+                </p>
             )}
         </div>
     );

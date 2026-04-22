@@ -8,17 +8,33 @@ function AdminPage() {
     const [editWorkData, setEditWorkData] = useState({});
     const [editGroupId, setEditGroupId] = useState(null);
     const [editGroupData, setEditGroupData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [message, setMessage] = useState(null);
 
     useEffect(() => {
-        apiFetch('/_/backend/admin/work')
-            .then(res => res.json())
-            .then(data => setWork(data))
-            .catch(err => console.log(err));
+        setLoading(true);
+        setError(null);
 
-        apiFetch('/_/backend/admin/groups')
-            .then(res => res.json())
-            .then(data => setGroups(data))
-            .catch(err => console.log(err));
+        Promise.all([
+            apiFetch('/_/backend/admin/work').then(res => {
+                if (!res.ok) throw new Error("Napaka pri pridobivanju terminov");
+                return res.json();
+            }),
+            apiFetch('/_/backend/admin/groups').then(res => {
+                if (!res.ok) throw new Error("Napaka pri pridobivanju skupin");
+                return res.json();
+            })
+        ])
+            .then(([workData, groupsData]) => {
+                setWork(workData);
+                setGroups(groupsData);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
     }, []);
 
     const handleEditWork = (w) => {
@@ -41,8 +57,9 @@ function AdminPage() {
             const updated = await response.json();
             setWork(work.map(w => w._id === id ? updated : w));
             setEditWorkId(null);
+            setMessage({ text: "Termin uspešno shranjen!", type: 'success' });
         } else {
-            alert("Napaka pri shranjevanju termina.");
+            setMessage({ text: "Napaka pri shranjevanju termina.", type: 'error' });
         }
     };
 
@@ -50,8 +67,9 @@ function AdminPage() {
         const response = await apiFetch(`/_/backend/work/${id}`, { method: 'DELETE' });
         if (response.ok) {
             setWork(work.filter(w => w._id !== id));
+            setMessage({ text: "Termin uspešno zbrisan!", type: 'success' });
         } else {
-            alert("Napaka pri brisanju termina.");
+            setMessage({ text: "Napaka pri brisanju termina.", type: 'error' });
         }
     };
 
@@ -69,8 +87,9 @@ function AdminPage() {
             const updated = await response.json();
             setGroups(groups.map(g => g._id === id ? updated : g));
             setEditGroupId(null);
+            setMessage({ text: "Skupina uspešno shranjena!", type: 'success' });
         } else {
-            alert("Napaka pri shranjevanju skupine.");
+            setMessage({ text: "Napaka pri shranjevanju skupine.", type: 'error' });
         }
     };
 
@@ -78,8 +97,9 @@ function AdminPage() {
         const response = await apiFetch(`/_/backend/groups/${id}`, { method: 'DELETE' });
         if (response.ok) {
             setGroups(groups.filter(g => g._id !== id));
+            setMessage({ text: "Skupina uspešno zbrisana!", type: 'success' });
         } else {
-            alert("Napaka pri brisanju skupine.");
+            setMessage({ text: "Napaka pri brisanju skupine.", type: 'error' });
         }
     };
 
@@ -113,6 +133,20 @@ function AdminPage() {
         marginRight: '6px'
     });
 
+    if (loading) return (
+        <div style={{ padding: '100px 30px', color: 'white', fontSize: '18px' }}>
+            Nalaganje...
+        </div>
+    );
+
+    if (error) return (
+        <div style={{ padding: '100px 30px' }}>
+            <p style={{ color: '#f44336', background: 'white', padding: '16px', borderRadius: '12px' }}>
+                ⚠️ {error}
+            </p>
+        </div>
+    );
+
     return (
         <div style={{
             padding: '100px 30px 30px 30px',
@@ -126,10 +160,22 @@ function AdminPage() {
             left: 0,
             zIndex: 10
         }}>
-            <h2 style={{ color: 'white', marginBottom: '30px' }}>Admin pregled</h2>
+            <h2 style={{ color: 'white', marginBottom: '20px' }}>Admin pregled</h2>
+
+            {message && (
+                <p style={{
+                    color: message.type === 'error' ? '#f44336' : '#4CAF50',
+                    background: 'white',
+                    padding: '10px 16px',
+                    borderRadius: '8px',
+                    marginBottom: '20px',
+                    display: 'inline-block'
+                }}>
+                    {message.type === 'error' ? '⚠️' : '✓'} {message.text}
+                </p>
+            )}
 
             <div style={{ display: 'flex', gap: '40px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-
                 <div style={{ flex: 1, minWidth: '300px' }}>
                     <h3 style={{ color: 'white', marginBottom: '16px' }}>Moje skupine</h3>
                     {groups.length === 0 ? (
@@ -162,7 +208,6 @@ function AdminPage() {
                     )}
                 </div>
 
-                {/* DESNA STRAN - TERMINI */}
                 <div style={{ flex: 2, minWidth: '300px' }}>
                     <h3 style={{ color: 'white', marginBottom: '16px' }}>Vsi termini</h3>
                     {work.length === 0 ? (
@@ -200,7 +245,6 @@ function AdminPage() {
                         </div>
                     )}
                 </div>
-
             </div>
         </div>
     );

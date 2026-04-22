@@ -12,14 +12,9 @@ DONE:
 - Ni JWT autentikacije — kdorkoli lahko kliče backend endpointe direktno brez prijave
 - Brisanje in urejanje terminov/skupin
 - Notifikacije ko ti je dodeljen nov termin
-
+- Pregled vseh terminov za admina (ne samo svojih)
 
 TO DO:
-
-Funkcionalnost:
-
-Pregled vseh terminov za admina (ne samo svojih)
-
 Kvaliteta kode:
 
 Error handling v frontendU je minimalen

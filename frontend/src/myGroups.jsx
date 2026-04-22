@@ -4,6 +4,8 @@ import apiFetch from './api';
 
 function MyGroups() {
     const [groups, setGroups] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const currentUser = JSON.parse(localStorage.getItem('prijavljenUporabnik'));
 
@@ -11,10 +13,33 @@ function MyGroups() {
         if (!currentUser) return;
 
         apiFetch(`/_/backend/groups/${currentUser.username}`)
-            .then(res => res.json())
-            .then(data => setGroups(data))
-            .catch(err => console.log("Napaka pri pridobivanju skupin", err));
+            .then(res => {
+                if (!res.ok) throw new Error("Napaka pri pridobivanju skupin");
+                return res.json();
+            })
+            .then(data => {
+                setGroups(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
     }, []);
+
+    if (loading) return (
+        <div className="page-container">
+            <p style={{ color: 'white', fontSize: '18px' }}>Nalaganje...</p>
+        </div>
+    );
+
+    if (error) return (
+        <div className="page-container">
+            <p style={{ color: '#f44336', background: 'white', padding: '16px', borderRadius: '12px' }}>
+                ⚠️ {error}
+            </p>
+        </div>
+    );
 
     return (
         <div className="page-container">

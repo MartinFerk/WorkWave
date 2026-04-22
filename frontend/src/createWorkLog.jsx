@@ -9,7 +9,9 @@ function WorkLog() {
     const [destinationAddress, setDestinationAddress] = useState('');
     const [assignedUser, setAssignedUser] = useState('');
     const [users, setUsers] = useState([]);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const currentUser = JSON.parse(localStorage.getItem('prijavljenUporabnik'));
 
@@ -18,10 +20,18 @@ function WorkLog() {
             .then(res => res.json())
             .then(data => {
                 const allMembers = [...new Set(data.flatMap(group => group.members))];
-                setUsers(allMembers);
+                setUsers(allMembers)
+                setLoading(false);
             })
-            .catch(err => console.error("Napaka pri fetch:", err));
-    }, []);
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
+
+    },[]);
+
+
+
 
 
     const handleCreateLog = async (e) => {
@@ -37,15 +47,29 @@ function WorkLog() {
             });
 
             if (response.ok) {
-                setMessage("Termin uspešno ustvarjen!");
+                setMessage({ text: "Termin uspešno ustvarjen!", type: 'success' });
                 setClientName(''); setTime(''); setPickupAddress(''); setDestinationAddress(''); setAssignedUser('');
             } else {
-                setMessage("Napaka pri ustvarjanju termina.");
+                setMessage({ text: "Napaka pri ustvarjanju termina.", type: 'error' });
             }
         } catch (error) {
-            setMessage("Povezava s strežnikom ni uspela.");
+            setMessage({ text: "Povezava s strežnikom ni uspela.", type: 'error' });
         }
     };
+
+    if (loading) return (
+        <div className="page-container">
+            <p style={{ color: 'white', fontSize: '18px' }}>Nalaganje...</p>
+        </div>
+    );
+
+    if (error) return (
+        <div className="page-container">
+            <p style={{ color: '#f44336', background: 'white', padding: '16px', borderRadius: '12px' }}>
+                ⚠️ {error}
+            </p>
+        </div>
+    );
 
     return (
         <div className="page-container">
@@ -75,7 +99,14 @@ function WorkLog() {
                     </select>
                 </div>
                 <button type="submit">Ustvari</button>
-                {message && <p>{message}</p>}
+                {message && (
+                    <p style={{
+                        color: message.type === 'error' ? '#f44336' : '#4CAF50',
+                        marginTop: '10px'
+                    }}>
+                        {message.type === 'error' ? '⚠️' : '✓'} {message.text}
+                    </p>
+                )}
             </form>
         </div>
     );
