@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import './styles/App.css'
+import './styles/global.css'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import UserRegister from "./userRegister.jsx";
 import UserLogin from "./userLogin.jsx";
