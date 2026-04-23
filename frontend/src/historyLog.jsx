@@ -50,11 +50,38 @@ function HistoryLog() {
             ) : (
                 <div className="card-grid">
                     {history.map(w => (
-                        <div key={w._id} className="card" style={{ borderColor: '#4CAF50' }}>
-                            <h3>{w.clientName}</h3>
+                        <div key={w._id} className="card" style={{ borderLeft: '4px solid #4CAF50' }}>
+                            <h3>{w.type === 'prevoz' ? '🚗' : w.type === 'servis' ? '🔧' : w.type === 'dostava' ? '📦' : w.type === 'sestanek' ? '📅' : '💻'} {w.type?.toUpperCase()}</h3>
                             <p>Čas: {new Date(w.time).toLocaleString()}</p>
-                            <p>Prevzem: {w.pickupAddress}</p>
-                            <p>Cilj: {w.destinationAddress}</p>
+
+                            {w.type === 'prevoz' && <>
+                                <p>Stranka: {w.clientName}</p>
+                                <p>Prevzem: {w.pickupAddress}</p>
+                                <p>Cilj: {w.destinationAddress}</p>
+                            </>}
+
+                            {w.type === 'servis' && <>
+                                <p>Vozilo: {w.vehicle}</p>
+                                <p>Opis: {w.serviceDescription}</p>
+                            </>}
+
+                            {w.type === 'dostava' && <>
+                                <p>Paket: {w.packageDesc}</p>
+                                <p>Naslov: {w.deliveryAddress}</p>
+                                <p>Prejemnik: {w.recipient}</p>
+                            </>}
+
+                            {w.type === 'sestanek' && <>
+                                <p>Tema: {w.topic}</p>
+                                <p>Lokacija: {w.location}</p>
+                            </>}
+
+                            {w.type === 'it_ticket' && <>
+                                <p>Naslov: {w.title}</p>
+                                <p>Opis: {w.description}</p>
+                                <p>Prioriteta: {w.priority}</p>
+                            </>}
+
                             <p style={{ color: '#4CAF50', fontWeight: 'bold', marginTop: '8px' }}>✓ Opravljeno</p>
                         </div>
                     ))}
