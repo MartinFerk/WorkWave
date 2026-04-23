@@ -69,10 +69,37 @@ function MyWorkLog() {
                 <div className="card-grid">
                     {work.map(w => (
                         <div key={w._id} className="card">
-                            <h3>{w.clientName}</h3>
+                            <h3>{w.type === 'prevoz' ? '🚗' : w.type === 'servis' ? '🔧' : w.type === 'dostava' ? '📦' : w.type === 'sestanek' ? '📅' : '💻'} {w.type?.toUpperCase()}</h3>
                             <p>Čas: {new Date(w.time).toLocaleString()}</p>
-                            <p>Prevzem: {w.pickupAddress}</p>
-                            <p>Cilj: {w.destinationAddress}</p>
+
+                            {w.type === 'prevoz' && <>
+                                <p>Stranka: {w.clientName}</p>
+                                <p>Prevzem: {w.pickupAddress}</p>
+                                <p>Cilj: {w.destinationAddress}</p>
+                            </>}
+
+                            {w.type === 'servis' && <>
+                                <p>Vozilo: {w.vehicle}</p>
+                                <p>Opis: {w.serviceDescription}</p>
+                            </>}
+
+                            {w.type === 'dostava' && <>
+                                <p>Paket: {w.packageDesc}</p>
+                                <p>Naslov: {w.deliveryAddress}</p>
+                                <p>Prejemnik: {w.recipient}</p>
+                            </>}
+
+                            {w.type === 'sestanek' && <>
+                                <p>Tema: {w.topic}</p>
+                                <p>Lokacija: {w.location}</p>
+                            </>}
+
+                            {w.type === 'it_ticket' && <>
+                                <p>Naslov: {w.title}</p>
+                                <p>Opis: {w.description}</p>
+                                <p>Prioriteta: {w.priority}</p>
+                            </>}
+
                             {!currentUser.isAdmin && (
                                 <button className="btn btn-green" style={{ marginTop: '8px' }} onClick={() => handleDone(w._id)}>✓ Opravljeno</button>
                             )}

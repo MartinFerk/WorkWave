@@ -218,10 +218,8 @@ function AdminPage() {
                                 <div key={w._id} style={cardStyle}>
                                     {editWorkId === w._id ? (
                                         <>
-                                            <input style={inputStyle} value={editWorkData.clientName} onChange={e => setEditWorkData({...editWorkData, clientName: e.target.value})} />
                                             <input style={inputStyle} type="datetime-local" value={editWorkData.time} onChange={e => setEditWorkData({...editWorkData, time: e.target.value})} />
-                                            <input style={inputStyle} value={editWorkData.pickupAddress} onChange={e => setEditWorkData({...editWorkData, pickupAddress: e.target.value})} />
-                                            <input style={inputStyle} value={editWorkData.destinationAddress} onChange={e => setEditWorkData({...editWorkData, destinationAddress: e.target.value})} />
+                                            <input style={inputStyle} placeholder="Dodeljeno" value={editWorkData.assignedUser} onChange={e => setEditWorkData({...editWorkData, assignedUser: e.target.value})} />
                                             <div>
                                                 <button style={btnStyle('#4CAF50')} onClick={() => handleSaveWork(w._id)}>Shrani</button>
                                                 <button style={btnStyle('#888')} onClick={() => setEditWorkId(null)}>Prekliči</button>
@@ -229,11 +227,40 @@ function AdminPage() {
                                         </>
                                     ) : (
                                         <>
-                                            <h4 style={{ margin: 0 }}>{w.clientName}</h4>
-                                            <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Voznik: {w.assignedUser}</p>
+                                            <h4 style={{ margin: 0 }}>
+                                                {w.type === 'prevoz' ? '🚗' : w.type === 'servis' ? '🔧' : w.type === 'dostava' ? '📦' : w.type === 'sestanek' ? '📅' : '💻'} {w.type?.toUpperCase()}
+                                            </h4>
+                                            <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Dodeljeno: {w.assignedUser}</p>
                                             <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Čas: {new Date(w.time).toLocaleString()}</p>
-                                            <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Prevzem: {w.pickupAddress}</p>
-                                            <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Cilj: {w.destinationAddress}</p>
+
+                                            {w.type === 'prevoz' && <>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Stranka: {w.clientName}</p>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Prevzem: {w.pickupAddress}</p>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Cilj: {w.destinationAddress}</p>
+                                            </>}
+
+                                            {w.type === 'servis' && <>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Vozilo: {w.vehicle}</p>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Opis: {w.serviceDescription}</p>
+                                            </>}
+
+                                            {w.type === 'dostava' && <>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Paket: {w.packageDesc}</p>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Naslov: {w.deliveryAddress}</p>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Prejemnik: {w.recipient}</p>
+                                            </>}
+
+                                            {w.type === 'sestanek' && <>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Tema: {w.topic}</p>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Lokacija: {w.location}</p>
+                                            </>}
+
+                                            {w.type === 'it_ticket' && <>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Naslov: {w.title}</p>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Opis: {w.description}</p>
+                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Prioriteta: {w.priority}</p>
+                                            </>}
+
                                             <div style={{ marginTop: '8px' }}>
                                                 <button style={btnStyle('#2196F3')} onClick={() => handleEditWork(w)}>Uredi</button>
                                                 <button style={btnStyle('#f44336')} onClick={() => handleDeleteWork(w._id)}>Zbriši</button>
