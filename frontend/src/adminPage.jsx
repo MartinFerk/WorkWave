@@ -210,14 +210,15 @@ function AdminPage() {
                                         <>
                                             <input style={inputStyle} value={editGroupData.groupName} onChange={e => setEditGroupData({...editGroupData, groupName: e.target.value})} />
                                             <div style={{ maxHeight: '200px', overflowY: 'auto', border: '1px solid #ccc', padding: '10px', backgroundColor: 'white', borderRadius: '6px' }}>
-                                                <input
-                                                    style={inputStyle}
-                                                    placeholder="Išči člane..."
-                                                    value={searchTerm}
-                                                    onChange={e => setSearchTerm(e.target.value)}
-                                                />
                                                 {filteredUsers.map(user => (
                                                     <div key={user.username} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                                                        <input
+                                                            style={inputStyle}
+                                                            placeholder="Išči člane..."
+                                                            value={searchTerm}
+                                                            onChange={e => setSearchTerm(e.target.value)}
+                                                        />
+                                                        <input type="checkbox" checked={selectedUsers.includes(user.username)} onChange={() => toggleUser(user.username)} />
                                                         <span style={{ fontSize: '16px', color: '#333' }}>{user.username}</span>
                                                     </div>
                                                 ))}
