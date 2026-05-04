@@ -53,7 +53,7 @@ const WorkLog = mongoose.model('WorkLog', new mongoose.Schema({
     title: String,
     description: String,
     priority: { type: String, enum: ['nizka', 'srednja', 'visoka'] }
-}));
+}, { timestamps: true }));
 
 const Group = mongoose.model('Group', new mongoose.Schema({
     groupName: String,
@@ -331,10 +331,31 @@ app.get('/admin/groups', verifyToken, async (req, res) => {
 app.get('/work/history/:username', verifyToken, async (req, res) => {
     try {
         const { username } = req.params;
-        const history = await WorkLog.find({ assignedUser: username, isCompleted: true });
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+        const history = await WorkLog.find({
+            assignedUser: username,
+            isCompleted: true,
+            updatedAt: { $gte: sixMonthsAgo }
+        }).sort({ updatedAt: -1 });
         res.json(history);
     } catch (err) {
         res.status(500).json({ error: "Napaka pri pridobivanju zgodovine" });
+    }
+});
+
+
+app.get('/admin/archive', verifyToken, async (req, res) => {
+    try {
+        if (!req.user.isAdmin) return res.status(403).json({ error: "Samo admin" });
+        const archive = await WorkLog.find({
+            createdBy: req.user.username,
+            isCompleted: true
+        }).sort({ updatedAt: -1 });
+        res.json(archive);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka pri pridobivanju arhiva" });
     }
 });
 
