@@ -8,7 +8,7 @@ import UserLogin from "./userLogin.jsx";
 import WorkLog from "./createWorkLog.jsx";
 import { useEffect } from "react";
 import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import CreateGroup from "./createGroup.jsx";
 import MyGroups from "./myGroups.jsx";
 import MyWorkLog from "./myWorkLog.jsx";
