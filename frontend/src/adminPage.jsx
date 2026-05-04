@@ -143,9 +143,6 @@ function AdminPage() {
         marginRight: '6px'
     });
 
-    const filteredUsers = searchTerm.trim() === ''
-        ? allUsers
-        : allUsers.filter(u => u.username.toLowerCase().includes(searchTerm.toLowerCase()));
 
     const toggleUser = (username) => {
         if (selectedUsers.includes(username)) {
@@ -154,6 +151,12 @@ function AdminPage() {
             setSelectedUsers([...selectedUsers, username]);
         }
     };
+    const filteredUsers = searchTerm.trim() === ''
+        ? []
+        : allUsers.filter(user =>
+            user.username &&
+            user.username.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
     if (loading) return (
         <div style={{ padding: '100px 30px', color: 'white', fontSize: '18px' }}>
