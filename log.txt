@@ -13,11 +13,10 @@ DONE:
 - Brisanje in urejanje terminov/skupin
 - Notifikacije ko ti je dodeljen nov termin
 - Pregled vseh terminov za admina (ne samo svojih)
+- Error handling v frontendU je minimalen
 
-TO DO:
-Kvaliteta kode:
+TO DO
 
-Error handling v frontendU je minimalen
 
 
 
