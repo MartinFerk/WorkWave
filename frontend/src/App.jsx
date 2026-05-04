@@ -130,7 +130,7 @@ function App() {
                     <Route path="/my-worklog" element={<MyWorkLog />} />
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/history" element={<HistoryPage />} />
-                    <Route path="/history" element={<ArchivePage />} />
+                    <Route path="/archive" element={<ArchivePage />} />
                 </Routes>
             </div>
             <Analytics />
