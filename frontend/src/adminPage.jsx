@@ -12,6 +12,10 @@ function AdminPage() {
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
 
+    const [allUsers, setAllUsers] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
     useEffect(() => {
         setLoading(true);
         setError(null);
@@ -24,11 +28,16 @@ function AdminPage() {
             apiFetch('/_/backend/admin/groups').then(res => {
                 if (!res.ok) throw new Error("Napaka pri pridobivanju skupin");
                 return res.json();
+            }),
+            apiFetch('/_/backend/users').then(res => {  // DODAJ
+                if (!res.ok) throw new Error("Napaka pri pridobivanju userjev");
+                return res.json();
             })
         ])
-            .then(([workData, groupsData]) => {
+            .then(([workData, groupsData,usersData]) => {
                 setWork(workData);
                 setGroups(groupsData);
+                setAllUsers(usersData);
                 setLoading(false);
             })
             .catch(err => {
@@ -76,12 +85,13 @@ function AdminPage() {
     const handleEditGroup = (g) => {
         setEditGroupId(g._id);
         setEditGroupData({ groupName: g.groupName });
+        setSelectedUsers(g.members);
     };
 
     const handleSaveGroup = async (id) => {
         const response = await apiFetch(`/_/backend/groups/${id}`, {
             method: 'PUT',
-            body: JSON.stringify(editGroupData)
+            body: JSON.stringify({ ...editGroupData, members: selectedUsers })
         });
         if (response.ok) {
             const updated = await response.json();
@@ -132,6 +142,18 @@ function AdminPage() {
         fontWeight: 'bold',
         marginRight: '6px'
     });
+
+    const filteredUsers = searchTerm.trim() === ''
+        ? allUsers
+        : allUsers.filter(u => u.username.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    const toggleUser = (username) => {
+        if (selectedUsers.includes(username)) {
+            setSelectedUsers(selectedUsers.filter(u => u !== username));
+        } else {
+            setSelectedUsers([...selectedUsers, username]);
+        }
+    };
 
     if (loading) return (
         <div style={{ padding: '100px 30px', color: 'white', fontSize: '18px' }}>
@@ -188,9 +210,14 @@ function AdminPage() {
                                         <>
                                             <input style={inputStyle} value={editGroupData.groupName} onChange={e => setEditGroupData({...editGroupData, groupName: e.target.value})} />
                                             <div style={{ maxHeight: '200px', overflowY: 'auto', border: '1px solid #ccc', padding: '10px', backgroundColor: 'white', borderRadius: '6px' }}>
+                                                <input
+                                                    style={inputStyle}
+                                                    placeholder="Išči člane..."
+                                                    value={searchTerm}
+                                                    onChange={e => setSearchTerm(e.target.value)}
+                                                />
                                                 {filteredUsers.map(user => (
                                                     <div key={user.username} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                                                        <input type="checkbox" checked={selectedUsers.includes(user.username)} onChange={() => toggleUser(user.username)} />
                                                         <span style={{ fontSize: '16px', color: '#333' }}>{user.username}</span>
                                                     </div>
                                                 ))}
