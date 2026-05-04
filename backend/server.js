@@ -310,7 +310,10 @@ app.post('/create-work', verifyToken, async (req, res) => {
 app.get('/admin/work', verifyToken, async (req, res) => {
     try {
         if (!req.user.isAdmin) return res.status(403).json({ error: "Samo admin" });
-        const work = await WorkLog.find({ createdBy: req.user.username });
+        const work = await WorkLog.find({
+            createdBy: req.user.username,
+            isCompleted: false
+        });
         res.json(work);
     } catch (err) {
         res.status(500).json({ error: "Napaka" });
