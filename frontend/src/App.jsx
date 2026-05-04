@@ -52,7 +52,7 @@ function App() {
                       <span className="adminNav">
                           <button className="btn btn-gray" onClick={() => navigate('/create-group')}>Ustvari skupino</button>
                           <button className="btn btn-gray" onClick={() => navigate('/admin')}>Pregled</button>
-                          <button onClick={() => navigate('/archive')}>Arhiv</button>
+                          <button className="btn btn-gray" onClick={() => navigate('/archive')}>Arhiv</button>
                       </span>
                   )}
 

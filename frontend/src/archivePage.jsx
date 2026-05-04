@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import apiFetch from './api';
+import './styles/global.css'
 
 function ArchivePage() {
     const [archive, setArchive] = useState([]);
