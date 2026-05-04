@@ -59,10 +59,16 @@ function App() {
                   {isLoggedIn && (
                       <span className="userNav">
                           <button className="btn btn-gray" onClick={() => navigate('/my-groups')}>Moje skupine</button>
+                      </span>
+                  )}
+
+                  {isLoggedIn && !isAdmin && (
+                      <span className="userNav">
                           <button className="btn btn-gray" onClick={() => navigate('/my-worklog')}>Moje delo</button>
                           <button className="btn btn-gray" onClick={() => navigate('/history')}>Zgodovina</button>
                       </span>
                   )}
+
               </span>
 
                 <span className="userNav">
