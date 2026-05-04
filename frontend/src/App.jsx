@@ -13,6 +13,7 @@ import MyGroups from "./myGroups.jsx";
 import MyWorkLog from "./myWorkLog.jsx";
 import AdminPage from './adminPage.jsx';
 import HistoryPage from './historyLog.jsx';
+import ArchivePage from './archivePage.jsx';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
                       <span className="adminNav">
                           <button className="btn btn-gray" onClick={() => navigate('/create-group')}>Ustvari skupino</button>
                           <button className="btn btn-gray" onClick={() => navigate('/admin')}>Pregled</button>
+                          <button onClick={() => navigate('/archive')}>Arhiv</button>
                       </span>
                   )}
 
@@ -128,6 +130,7 @@ function App() {
                     <Route path="/my-worklog" element={<MyWorkLog />} />
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/history" element={<HistoryPage />} />
+                    <Route path="/history" element={<ArchivePage />} />
                 </Routes>
             </div>
             <Analytics />
