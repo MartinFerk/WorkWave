@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 
 const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -12,6 +13,13 @@ const jwt = require('jsonwebtoken');
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const archiveRateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 60, // max 60 requests per window per IP
+    standardHeaders: true,
+    legacyHeaders: false,
+});
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log("Povezan na MongoDB!"))
@@ -349,7 +357,7 @@ app.get('/work/history/:username', verifyToken, async (req, res) => {
 });
 
 
-app.get('/admin/archive', verifyToken, async (req, res) => {
+app.get('/admin/archive', archiveRateLimiter, verifyToken, async (req, res) => {
     try {
         if (!req.user.isAdmin) return res.status(403).json({ error: "Samo admin" });
         const archive = await WorkLog.find({
