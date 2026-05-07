@@ -163,6 +163,16 @@ app.get('/groups/:username',verifyToken, async (req, res) => {
     }
 });
 
+app.get('/work/detail/:id', verifyToken, async (req, res) => {
+    try {
+        const work = await WorkLog.findById(req.params.id);
+        if (!work) return res.status(404).json({ error: "Termin ne obstaja" });
+        res.json(work);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka" });
+    }
+});
+
 app.get('/work/:username',verifyToken, async (req, res) => {
 
     try{
