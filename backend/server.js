@@ -25,49 +25,39 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log("Povezan na MongoDB!"))
     .catch(err => console.error("Napaka pri povezavi:", err));
 
-const User = mongoose.model('User', new mongoose.Schema({
+const User = mongoose.models.User || mongoose.model('User', new mongoose.Schema({
     email: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false }
 }));
 
-const WorkLog = mongoose.model('WorkLog', new mongoose.Schema({
+const WorkLog = mongoose.models.WorkLog || mongoose.model('WorkLog', new mongoose.Schema({
     type: { type: String, enum: ['prevoz', 'servis', 'dostava', 'sestanek', 'it_ticket'], default: 'prevoz' },
     time: Date,
     assignedUser: String,
     isCompleted: { type: Boolean, default: false },
     createdBy: String,
-
-    // Prevoz
     clientName: String,
     pickupAddress: String,
     destinationAddress: String,
-
-    // Servis
     vehicle: String,
     serviceDescription: String,
-
-    // Dostava
     packageDesc: String,
     deliveryAddress: String,
     recipient: String,
-
-    // Sestanek
     topic: String,
     location: String,
-
-    // IT Ticket
     title: String,
     description: String,
     priority: { type: String, enum: ['nizka', 'srednja', 'visoka'] }
 }, { timestamps: true }));
 
-const Group = mongoose.model('Group', new mongoose.Schema({
+const Group = mongoose.models.Group || mongoose.model('Group', new mongoose.Schema({
     groupName: String,
     groupAdmin: String,
     members: [String]
-}))
+}));
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -367,7 +357,7 @@ app.get('/work/history/:username', verifyToken, async (req, res) => {
 });
 
 
-app.get('/admin/archive', archiveRateLimiter, verifyToken, async (req, res) => {
+app.get('/admin/archive', authLimiter, verifyToken, async (req, res) => {
     try {
         if (!req.user.isAdmin) return res.status(403).json({ error: "Samo admin" });
         const archive = await WorkLog.find({
