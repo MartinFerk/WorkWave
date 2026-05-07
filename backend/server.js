@@ -367,7 +367,7 @@ app.get('/work/history/:username', verifyToken, async (req, res) => {
 });
 
 
-app.get('/admin/archive', verifyToken, async (req, res) => {
+app.get('/admin/archive', archiveRateLimiter, verifyToken, async (req, res) => {
     try {
         if (!req.user.isAdmin) return res.status(403).json({ error: "Samo admin" });
         const archive = await WorkLog.find({
