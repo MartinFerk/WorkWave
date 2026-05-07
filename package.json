@@ -8,6 +8,7 @@
   },
   "private": true,
   "dependencies": {
-    "@vercel/speed-insights": "^2.0.0"
+    "@vercel/speed-insights": "^2.0.0",
+    "express-rate-limit": "^8.5.1"
   }
 }
