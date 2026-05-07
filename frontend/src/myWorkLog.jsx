@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import './styles/global.css'
 import apiFetch from './api';
+import { useNavigate } from 'react-router-dom';
+
 
 function MyWorkLog() {
     const [work, setWork] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
+    const navigate = useNavigate();
 
     const currentUser = JSON.parse(localStorage.getItem('prijavljenUporabnik'));
 
@@ -68,41 +71,13 @@ function MyWorkLog() {
             ) : (
                 <div className="card-grid">
                     {work.map(w => (
-                        <div key={w._id} className="card">
-                            <h3>{w.type === 'prevoz' ? '🚗' : w.type === 'servis' ? '🔧' : w.type === 'dostava' ? '📦' : w.type === 'sestanek' ? '📅' : '💻'} {w.type?.toUpperCase()}</h3>
+                        <div key={w._id} className="card" style={{ cursor: 'pointer' }} onClick={() => navigate(`/work/detail/${w._id}`)}>
+                            <h4 style={{ margin: 0 }}>
+                                {w.type === 'prevoz' ? '🚗' : w.type === 'servis' ? '🔧' : w.type === 'dostava' ? '📦' : w.type === 'sestanek' ? '📅' : '💻'} {w.type?.toUpperCase()}
+                            </h4>
+                            <p>Dodeljeno: {w.assignedUser}</p>
                             <p>Čas: {new Date(w.time).toLocaleString()}</p>
-
-                            {w.type === 'prevoz' && <>
-                                <p>Stranka: {w.clientName}</p>
-                                <p>Prevzem: {w.pickupAddress}</p>
-                                <p>Cilj: {w.destinationAddress}</p>
-                            </>}
-
-                            {w.type === 'servis' && <>
-                                <p>Vozilo: {w.vehicle}</p>
-                                <p>Opis: {w.serviceDescription}</p>
-                            </>}
-
-                            {w.type === 'dostava' && <>
-                                <p>Paket: {w.packageDesc}</p>
-                                <p>Naslov: {w.deliveryAddress}</p>
-                                <p>Prejemnik: {w.recipient}</p>
-                            </>}
-
-                            {w.type === 'sestanek' && <>
-                                <p>Tema: {w.topic}</p>
-                                <p>Lokacija: {w.location}</p>
-                            </>}
-
-                            {w.type === 'it_ticket' && <>
-                                <p>Naslov: {w.title}</p>
-                                <p>Opis: {w.description}</p>
-                                <p>Prioriteta: {w.priority}</p>
-                            </>}
-
-                            {!currentUser.isAdmin && (
-                                <button className="btn btn-green" style={{ marginTop: '8px' }} onClick={() => handleDone(w._id)}>✓ Opravljeno</button>
-                            )}
+                            <p style={{ color: '#4CAF50', fontWeight: 'bold', marginTop: '4px' }}>✓ Opravljeno — klikni za več →</p>
                         </div>
                     ))}
                 </div>
