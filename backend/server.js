@@ -14,11 +14,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const archiveRateLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 60, // max 60 requests per window per IP
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
     standardHeaders: true,
-    legacyHeaders: false,
+    legacyHeaders: false
 });
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -137,14 +137,14 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/users',verifyToken, async (req, res) => {
+app.get('/users', authLimiter, verifyToken, async (req, res) => {
     try {
         const users = await User.find({}, 'username');
         res.json(users);
     } catch (err) { res.status(500).json({ error: "Napaka" }); }
 });
 
-app.post('/create-group',verifyToken, async (req, res) => {
+app.post('/create-group', authLimiter, verifyToken, async (req, res) => {
     try{
         const { groupName, groupAdmin, members } = req.body;
         const newGroup = new Group({ groupName, groupAdmin ,members });
@@ -156,7 +156,7 @@ app.post('/create-group',verifyToken, async (req, res) => {
 });
 
 
-app.get('/groups/:username',verifyToken, async (req, res) => {
+app.get('/groups/:username', authLimiter, verifyToken, async (req, res) => {
     try {
         const { username } = req.params;
         const groups = await Group.find({
@@ -168,6 +168,16 @@ app.get('/groups/:username',verifyToken, async (req, res) => {
         res.json(groups);
     } catch (err) {
         res.status(500).json({ error: "Napaka pri pridobivanju skupin" });
+    }
+});
+
+app.get('/work/detail/:id', authLimiter, verifyToken, async (req, res) => {
+    try {
+        const work = await WorkLog.findById(req.params.id);
+        if (!work) return res.status(404).json({ error: "Termin ne obstaja" });
+        res.json(work);
+    } catch (err) {
+        res.status(500).json({ error: "Napaka" });
     }
 });
 
