@@ -77,7 +77,14 @@ function MyWorkLog() {
                             </h4>
                             <p>Dodeljeno: {w.assignedUser}</p>
                             <p>Čas: {new Date(w.time).toLocaleString()}</p>
-                            <p style={{ color: '#4CAF50', fontWeight: 'bold', marginTop: '4px' }}>✓ Opravljeno — klikni za več →</p>
+                            <p style={{ color: '#4CAF50', fontWeight: 'bold', marginTop: '4px' }}>klikni za več →</p>
+                            <button
+                                className="btn btn-green"
+                                style={{ marginTop: '8px' }}
+                                onClick={(e) => { e.stopPropagation(); handleDone(w._id); }}
+                            >
+                                ✓ Opravljeno
+                            </button>
                         </div>
                     ))}
                 </div>
