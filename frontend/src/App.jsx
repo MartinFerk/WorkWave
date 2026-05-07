@@ -15,6 +15,8 @@ import MyWorkLog from "./myWorkLog.jsx";
 import AdminPage from './adminPage.jsx';
 import HistoryPage from './historyLog.jsx';
 import ArchivePage from './archivePage.jsx';
+import WorkDetail from './workDetail.jsx';
+
 
 
 function App() {
@@ -138,6 +140,7 @@ function App() {
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/history" element={<HistoryPage />} />
                     <Route path="/archive" element={<ArchivePage />} />
+                    <Route path="/work/detail/:id" element={<WorkDetail />} />
                 </Routes>
             </div>
             <Analytics />

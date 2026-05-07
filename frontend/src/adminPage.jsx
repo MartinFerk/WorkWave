@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import apiFetch from './api';
+import { useNavigate } from 'react-router-dom';
+
 
 function AdminPage() {
     const [work, setWork] = useState([]);
@@ -11,6 +13,8 @@ function AdminPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
+    const [expandedId, setExpandedId] = useState(null);
+    const navigate = useNavigate();
 
     const [allUsers, setAllUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -29,7 +33,7 @@ function AdminPage() {
                 if (!res.ok) throw new Error("Napaka pri pridobivanju skupin");
                 return res.json();
             }),
-            apiFetch('/_/backend/users').then(res => {  // DODAJ
+            apiFetch('/_/backend/users').then(res => {
                 if (!res.ok) throw new Error("Napaka pri pridobivanju userjev");
                 return res.json();
             })
@@ -254,14 +258,14 @@ function AdminPage() {
                     ) : (
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px' }}>
                             {work.map(w => (
-                                <div key={w._id} style={cardStyle}>
+                                <div key={w._id} style={{ ...cardStyle, cursor: 'pointer' }} onClick={() => navigate(`/work/detail/${w._id}`)}>
                                     {editWorkId === w._id ? (
                                         <>
                                             <input style={inputStyle} type="datetime-local" value={editWorkData.time} onChange={e => setEditWorkData({...editWorkData, time: e.target.value})} />
                                             <input style={inputStyle} placeholder="Dodeljeno" value={editWorkData.assignedUser} onChange={e => setEditWorkData({...editWorkData, assignedUser: e.target.value})} />
                                             <div>
-                                                <button style={btnStyle('#4CAF50')} onClick={() => handleSaveWork(w._id)}>Shrani</button>
-                                                <button style={btnStyle('#888')} onClick={() => setEditWorkId(null)}>Prekliči</button>
+                                                <button style={btnStyle('#4CAF50')} onClick={(e) => { e.stopPropagation(); handleSaveWork(w._id); }}>Shrani</button>
+                                                <button style={btnStyle('#888')} onClick={(e) => { e.stopPropagation(); setEditWorkId(null); }}>Prekliči</button>
                                             </div>
                                         </>
                                     ) : (
@@ -271,38 +275,10 @@ function AdminPage() {
                                             </h4>
                                             <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Dodeljeno: {w.assignedUser}</p>
                                             <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Čas: {new Date(w.time).toLocaleString()}</p>
-
-                                            {w.type === 'prevoz' && <>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Stranka: {w.clientName}</p>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Prevzem: {w.pickupAddress}</p>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Cilj: {w.destinationAddress}</p>
-                                            </>}
-
-                                            {w.type === 'servis' && <>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Vozilo: {w.vehicle}</p>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Opis: {w.serviceDescription}</p>
-                                            </>}
-
-                                            {w.type === 'dostava' && <>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Paket: {w.packageDesc}</p>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Naslov: {w.deliveryAddress}</p>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Prejemnik: {w.recipient}</p>
-                                            </>}
-
-                                            {w.type === 'sestanek' && <>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Tema: {w.topic}</p>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Lokacija: {w.location}</p>
-                                            </>}
-
-                                            {w.type === 'it_ticket' && <>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Naslov: {w.title}</p>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Opis: {w.description}</p>
-                                                <p style={{ margin: 0, fontSize: '13px', color: '#555' }}>Prioriteta: {w.priority}</p>
-                                            </>}
-
+                                            <p style={{ margin: 0, fontSize: '13px', color: '#2196F3' }}>Klikni za več →</p>
                                             <div style={{ marginTop: '8px' }}>
-                                                <button style={btnStyle('#2196F3')} onClick={() => handleEditWork(w)}>Uredi</button>
-                                                <button style={btnStyle('#f44336')} onClick={() => handleDeleteWork(w._id)}>Zbriši</button>
+                                                <button style={btnStyle('#2196F3')} onClick={(e) => { e.stopPropagation(); handleEditWork(w); }}>Uredi</button>
+                                                <button style={btnStyle('#f44336')} onClick={(e) => { e.stopPropagation(); handleDeleteWork(w._id); }}>Zbriši</button>
                                             </div>
                                         </>
                                     )}
