@@ -81,7 +81,7 @@ function MyWorkLog() {
                             <button
                                 className="btn btn-green"
                                 style={{ marginTop: '8px' }}
-                                onClick={(e) => { e.stopPropagation(); handleDone(w._id); }}
+                                onClick={async (e) => { e.stopPropagation(); handleDone(w._id); }}
                             >
                                 ✓ Opravljeno
                             </button>

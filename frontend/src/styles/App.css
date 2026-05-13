@@ -140,3 +140,51 @@ section {
     margin-bottom: 8px;
     font-weight: 500;
 }
+
+
+@media (max-width: 768px) {
+    .globalNav {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .navigationButtons {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .adminNav {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+        flex-wrap: wrap;
+    }
+
+    .userNav {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    button {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .page-container {
+        padding: 120px 15px 20px 15px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-card {
+        padding: 20px 15px;
+        max-width: 100%;
+    }
+
+    .page-title {
+        font-size: 1.4rem;
+    }
+}

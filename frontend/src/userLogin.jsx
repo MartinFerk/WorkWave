@@ -7,7 +7,6 @@ import apiFetch from "./api.js";
 
 function Login({ setIsLoggedIn, setUser, setIsAdmin }) {
 
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [errorMsg, setErrorMsg] = useState('');

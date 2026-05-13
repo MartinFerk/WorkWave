@@ -13,7 +13,6 @@ function AdminPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
-    const [expandedId, setExpandedId] = useState(null);
     const navigate = useNavigate();
 
     const [allUsers, setAllUsers] = useState([]);
@@ -264,8 +263,8 @@ function AdminPage() {
                                             <input style={inputStyle} type="datetime-local" value={editWorkData.time} onChange={e => setEditWorkData({...editWorkData, time: e.target.value})} />
                                             <input style={inputStyle} placeholder="Dodeljeno" value={editWorkData.assignedUser} onChange={e => setEditWorkData({...editWorkData, assignedUser: e.target.value})} />
                                             <div>
-                                                <button style={btnStyle('#4CAF50')} onClick={(e) => { e.stopPropagation(); handleSaveWork(w._id); }}>Shrani</button>
-                                                <button style={btnStyle('#888')} onClick={(e) => { e.stopPropagation(); setEditWorkId(null); }}>Prekliči</button>
+                                                <button style={btnStyle('#4CAF50')} onClick={async (e) => { e.stopPropagation(); await handleSaveWork(w._id); }}>Shrani</button>
+                                                <button style={btnStyle('#f44336')} onClick={async (e) => { e.stopPropagation(); await handleDeleteWork(w._id); }}>Zbriši</button>
                                             </div>
                                         </>
                                     ) : (
