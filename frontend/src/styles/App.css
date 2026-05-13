@@ -185,3 +185,13 @@ section {
         max-width: 100%;
     }
 }
+
+@media (min-width: 769px) {
+    .hamburger {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: none;
+    }
+}
