@@ -115,7 +115,6 @@ section {
 
 .page-title { color: white; margin-bottom: 30px; }
 
-/* Gumbi */
 .btn {
     padding: 8px 16px;
     border-radius: 6px;
@@ -146,12 +145,14 @@ section {
     .globalNav {
         padding: 10px 15px;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 8px;
+        background: rgba(0,0,0,0.5);
     }
 
     .navigationButtons {
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
+        width: 100%;
     }
 
     .adminNav {
@@ -163,16 +164,16 @@ section {
 
     .userNav {
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
     }
 
     button {
-        padding: 8px;
-        font-size: 13px;
+        padding: 6px 10px;
+        font-size: 12px;
     }
 
     .page-container {
-        padding: 120px 15px 20px 15px;
+        padding: 160px 15px 20px 15px;
     }
 
     .card-grid {
@@ -182,9 +183,5 @@ section {
     .form-card {
         padding: 20px 15px;
         max-width: 100%;
-    }
-
-    .page-title {
-        font-size: 1.4rem;
     }
 }
