@@ -25,6 +25,7 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [user, setUser] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
 
@@ -48,43 +49,69 @@ function App() {
     return (
         <section>
             <nav className="globalNav">
-              <span className="navigationButtons">
-                  <button className="btn btn-gray" onClick={() => navigate('/')}>Domov</button>
+                {/* Hamburger za telefone */}
+                <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>☰</button>
 
-                  {isAdmin && isLoggedIn && (
-                      <span className="adminNav">
-                          <button className="btn btn-gray" onClick={() => navigate('/create-group')}>Ustvari skupino</button>
-                          <button className="btn btn-gray" onClick={() => navigate('/admin')}>Pregled</button>
-                          <button className="btn btn-gray" onClick={() => navigate('/archive')}>Arhiv</button>
-                      </span>
-                  )}
+                {/* Mobile menu */}
+                {menuOpen && (
+                    <div className="mobile-menu">
+                        <button onClick={() => { navigate('/'); setMenuOpen(false); }}>Domov</button>
+                        {isAdmin && isLoggedIn && <>
+                            <button onClick={() => { navigate('/create-group'); setMenuOpen(false); }}>Ustvari skupino</button>
+                            <button onClick={() => { navigate('/admin'); setMenuOpen(false); }}>Pregled</button>
+                            <button onClick={() => { navigate('/archive'); setMenuOpen(false); }}>Arhiv</button>
+                        </>}
+                        {isLoggedIn && <>
+                            <button onClick={() => { navigate('/my-groups'); setMenuOpen(false); }}>Moje skupine</button>
+                            {!isAdmin && <>
+                                <button onClick={() => { navigate('/my-worklog'); setMenuOpen(false); }}>Moje delo</button>
+                                <button onClick={() => { navigate('/history'); setMenuOpen(false); }}>Zgodovina</button>
+                            </>}
+                            <button onClick={() => { handleLogout(); setMenuOpen(false); }}>Odjava</button>
+                        </>}
+                        {!isLoggedIn && <>
+                            <button onClick={() => { navigate('/login'); setMenuOpen(false); }}>Prijava</button>
+                            <button onClick={() => { navigate('/register'); setMenuOpen(false); }}>Registracija</button>
+                        </>}
+                    </div>
+                )}
 
-                  {isLoggedIn && (
-                      <span className="userNav">
-                          <button className="btn btn-gray" onClick={() => navigate('/my-groups')}>Moje skupine</button>
-                      </span>
-                  )}
+                {/* Desktop navigacija */}
+                <span className="navigationButtons desktop-only">
+                <button className="btn btn-gray" onClick={() => navigate('/')}>Domov</button>
 
-                  {isLoggedIn && !isAdmin && (
-                      <span className="userNav">
-                          <button className="btn btn-gray" onClick={() => navigate('/my-worklog')}>Moje delo</button>
-                          <button className="btn btn-gray" onClick={() => navigate('/history')}>Zgodovina</button>
-                      </span>
-                  )}
+                    {isAdmin && isLoggedIn && (
+                        <span className="adminNav">
+                        <button className="btn btn-gray" onClick={() => navigate('/create-group')}>Ustvari skupino</button>
+                        <button className="btn btn-gray" onClick={() => navigate('/admin')}>Pregled</button>
+                        <button className="btn btn-gray" onClick={() => navigate('/archive')}>Arhiv</button>
+                    </span>
+                    )}
 
-              </span>
+                    {isLoggedIn && (
+                        <span className="userNav">
+                        <button className="btn btn-gray" onClick={() => navigate('/my-groups')}>Moje skupine</button>
+                    </span>
+                    )}
 
-                <span className="userNav">
-                  {!isLoggedIn ? (
-                      <>
-                          <button className="btn btn-gray" onClick={() => navigate('/login')}>Prijava</button>
-                          <button className="btn btn-gray" onClick={() => navigate('/register')}>Registracija</button>
-                      </>
-                  ) : (
-                      <button className="btn btn-gray" onClick={handleLogout}>Odjava</button>
-                  )}
-              </span>
+                    {isLoggedIn && !isAdmin && (
+                        <span className="userNav">
+                        <button className="btn btn-gray" onClick={() => navigate('/my-worklog')}>Moje delo</button>
+                        <button className="btn btn-gray" onClick={() => navigate('/history')}>Zgodovina</button>
+                    </span>
+                    )}
+            </span>
 
+                <span className="userNav desktop-only">
+                {!isLoggedIn ? (
+                    <>
+                        <button className="btn btn-gray" onClick={() => navigate('/login')}>Prijava</button>
+                        <button className="btn btn-gray" onClick={() => navigate('/register')}>Registracija</button>
+                    </>
+                ) : (
+                    <button className="btn btn-gray" onClick={handleLogout}>Odjava</button>
+                )}
+            </span>
             </nav>
 
             <div className="page-container">
@@ -102,15 +129,15 @@ function App() {
                                     <h2 style={{ color: 'white', textAlign: 'center', marginBottom: '30px' }}>Zakaj Work Wave?</h2>
                                     <div className="card-grid" style={{ maxWidth: '900px', margin: '0 auto' }}>
                                         <div className="card">
-                                            <h3> Skupine</h3>
+                                            <h3>Skupine</h3>
                                             <p>Organiziraj svoje sodelavce v skupine in delite delovne naloge.</p>
                                         </div>
                                         <div className="card">
-                                            <h3> Sledenje delu</h3>
+                                            <h3>Sledenje delu</h3>
                                             <p>Enostavno beleženje terminov, časa in lokacij prevzema.</p>
                                         </div>
                                         <div className="card">
-                                            <h3> Preglednost</h3>
+                                            <h3>Preglednost</h3>
                                             <p>Napredna zgodovina in administracija za popoln nadzor.</p>
                                         </div>
                                     </div>
