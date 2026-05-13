@@ -142,6 +142,32 @@ section {
 
 
 @media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .hamburger {
+        display: block;
+        background: rgba(0,0,0,0.5);
+        font-size: 20px;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        z-index: 200;
+    }
+
+    .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.95);
+        padding: 60px 20px 20px 20px;
+        z-index: 150;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
     .globalNav {
         padding: 10px 15px;
         flex-wrap: wrap;
